@@ -1,0 +1,25 @@
+items:
+  - title: Jitsi
+    subDomain: hang
+    uri: ""
+    icon: icon_jitsi.png
+  - title: HedgeDoc
+    subDomain: doc
+    uri: ""
+    icon: icon_hedgedoc.png
+  - title: Element
+    subDomain: element
+    uri: ""
+    icon: icon_element.png
+  - title: Account
+    subDomain: auth
+    uri: auth/realms/autsch/account
+    icon: icon_keycloak.png
+  - title: Nextcloud
+    subDomain: next
+    uri: ""
+    icon: icon_nextcloud.png
+  - title: Work Adventure
+    subDomain: play
+    uri: ""
+    icon: icon_workadventure.png

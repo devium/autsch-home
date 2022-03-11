@@ -1,0 +1,49 @@
+html, body {
+  min-height: 100vh;
+}
+
+body {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+  align-items: center;
+  background-image: linear-gradient(160deg, black, grey);
+  background-size: cover;
+  flex-wrap: wrap;
+}
+
+.card {
+  opacity: 0.9;
+}
+
+.card-hover:hover {
+  opacity: 1.0;
+}
+
+.card-rooms {
+  width: 800px;
+}
+
+.cursorPointer:hover {
+  cursor: pointer;
+}
+
+#rooms p {
+  margin-bottom: 0px;
+}
+
+#rooms .card-body {
+  min-height: 140px;
+  max-height: 140px;
+  overflow: auto;
+}
+
+#rooms h6 {
+  margin-bottom: 0px;
+}
+
+#rooms .card-body .col {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
