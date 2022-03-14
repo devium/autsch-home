@@ -28,22 +28,8 @@ body {
   cursor: pointer;
 }
 
-#rooms p {
-  margin-bottom: 0px;
-}
-
 #rooms .card-body {
   min-height: 140px;
   max-height: 140px;
   overflow: auto;
-}
-
-#rooms h6 {
-  margin-bottom: 0px;
-}
-
-#rooms .card-body .col {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
 }

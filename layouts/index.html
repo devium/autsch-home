@@ -23,7 +23,7 @@
         <div class="card-body">
           <div class="input-group mb-3">
             <input id="roomname" class="form-control" type="text" placeholder="Raum">
-            <button type="button" class="btn btn-outline-secondary" onclick="window.open('https://{{ $.Site.Params.subdomains.jitsiKeycloak }}.{{ $.Site.Params.baseDomain }}/' + $('#roomname').val(), '_blank')">
+            <button type="button" class="btn btn-outline-dark" onclick="window.open('https://{{ $.Site.Params.subdomains.jitsiKeycloak }}.{{ $.Site.Params.baseDomain }}/' + $('#roomname').val(), '_blank')">
               Eröffnen
             </button>
           </div>
@@ -39,11 +39,11 @@
   <div class="row row-cols-2 row-cols-md-3 g-4 justify-content-center">
     {{ range .Site.Data.links.items }}
     <div class="col">
-      {{ $url := printf "https://%s.%s/%s" .subDomain $.Site.Params.baseDomain .uri }}
+      {{ $url := printf "https://%s.%s/%s" .subDomain $.Site.Params.baseDomain (default "" .uri) }}
       <a href="{{ $url }}" target="_blank" class="text-decoration-none text-dark d-block card card-hover cursorPointer h-100">
         <div class="card-body">
           {{ $img := resources.Get (path.Join "/img/" .icon) }}
-          <img src="{{ $img.RelPermalink }}" class="card-icon mx-auto mb-2" width="56px">
+          <img src="{{ $img.RelPermalink }}" class="card-icon mx-auto mb-2 {{ if .bg }} bg-primary bg-gradient {{ end }} rounded" width="56px">
           <h5 class="card-title">
             {{ .title | safeHTML }}
           </h5>

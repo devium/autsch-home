@@ -51,24 +51,26 @@ function renderRoom(room) {
         target: '_blank'
       }).append(
         $('<div>', { class: 'card-header text-center' }).append(
-          $('<h5>').text(room.name)
+          $('<h5>', { class: 'text-truncate' }).text(room.name)
         )
       ).append(
         $('<div>', { class: 'card-body' }).append(
-          $('<h6>').text('Hauptraum (' + room.occupants.length + '):' )
+          $('<h6>', { class: 'mb-0' }).text('Hauptraum (' + room.occupants.length + '):' )
         ).append(
-          $('<div>', { class: 'row row-cols-2'}).append(
+          $('<div>').append(
             $.map(room.occupants, function(occupant, _) {
-              return $('<div>', { class: 'col' }).text(occupant.name);
+              return $('<span>', { class: 'badge bg-light text-dark mx-1' }).text(occupant.name);
             })
           )
         ).append(
           $.map(room.breakoutRooms, function(breakoutRoom, _) {
             return $.merge(
-              [$('<h6>').text(breakoutRoom.name + ' (' + breakoutRoom.occupants.length + '):')],
-              $.map(breakoutRoom.occupants, function(occupant, _) {
-                return $('<p>').text(occupant.name);
-              })
+              [$('<h6>', { class: 'mb-0' }).text(breakoutRoom.name + ' (' + breakoutRoom.occupants.length + '):')],
+              $('<div>').append(
+                $.map(breakoutRoom.occupants, function(occupant, _) {
+                  return $('<span>', { class: 'badge bg-light text-dark mx-1' }).text(occupant.name);
+                })
+              )
             );
           })
         )
