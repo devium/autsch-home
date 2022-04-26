@@ -11,7 +11,7 @@ items:
     icon: icon_element.svg
   - title: Account
     subDomain: auth
-    uri: auth/realms/autsch/account
+    uri: realms/autsch/account
     icon: icon_keycloak.svg
   - title: Nextcloud
     subDomain: next
