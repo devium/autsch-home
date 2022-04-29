@@ -3,6 +3,7 @@ FROM alpine:latest
 WORKDIR /
 
 COPY assets /src/assets
+COPY content /src/content
 COPY data /src/data
 COPY layouts /src/layouts
 COPY config.toml /src/config.toml
