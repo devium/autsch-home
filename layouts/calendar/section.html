@@ -39,7 +39,7 @@
       locale: 'de',
       initialView: 'dayGridMonth',
       events: {
-        url: "https://next.{{ $.Site.Params.baseDomain }}.org/remote.php/dav/public-calendars/" + id + "?export",
+        url: "https://next.{{ $.Site.Params.baseDomain }}/remote.php/dav/public-calendars/" + id + "?export",
         format: "ics"
       },
       contentHeight: 600,
@@ -52,7 +52,7 @@
     calendar.render();
 
     $('#copyUrl').click(function () {
-      navigator.clipboard.writeText('webcal://next.{{ $.Site.Params.baseDomain }}.org/remote.php/dav/public-calendars/' + id + '/?export');
+      navigator.clipboard.writeText('webcal://next.{{ $.Site.Params.baseDomain }}/remote.php/dav/public-calendars/' + id + '/?export');
     });
     $('#nextcloud').attr('href', 'https://next.{{ $.Site.Params.baseDomain }}/apps/calendar/p/' + id);
   }
