@@ -7,12 +7,16 @@
         {{ .Site.Title }}
       {{ end }}
     </title>
+    {{ block "head" . }}
+    {{ end }}
     {{ partial "head.html" . }}
   </head>
   <body class=text-center>
     {{ block "main" . }}
     {{ end }}
 
+    {{ block "js" . }}
+    {{ end }}
     {{ partial "js.html" . }}
   </body>
 </html>

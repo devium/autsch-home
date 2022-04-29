@@ -1,24 +1,28 @@
 items:
   - title: Jitsi
-    subDomain: hang
+    subDomain: hang.
     icon: icon_jitsi.svg
     bg: true
+  - title: Kalender
+    subDomain: ""
+    uri: calendar
+    icon: icon_calendar.svg
   - title: HedgeDoc
-    subDomain: doc
+    subDomain: doc.
     icon: icon_hedgedoc.svg
   - title: Element
-    subDomain: element
+    subDomain: element.
     icon: icon_element.svg
   - title: Account
-    subDomain: auth
+    subDomain: auth.
     uri: realms/autsch/account
     icon: icon_keycloak.svg
   - title: Nextcloud
-    subDomain: next
+    subDomain: next.
     icon: icon_nextcloud.svg
   - title: Work Adventure
-    subDomain: play
+    subDomain: play.
     icon: icon_workadventure.svg
   - title: Grafana
-    subDomain: grafana
+    subDomain: grafana.
     icon: icon_grafana.svg

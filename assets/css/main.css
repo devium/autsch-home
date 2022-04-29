@@ -1,4 +1,4 @@
-html, body {
+html, body, .site-container {
   min-height: 100vh;
 }
 

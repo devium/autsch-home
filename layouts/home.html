@@ -39,7 +39,7 @@
   <div class="row row-cols-2 row-cols-md-3 g-4 justify-content-center">
     {{ range .Site.Data.links.items }}
     <div class="col">
-      {{ $url := printf "https://%s.%s/%s" .subDomain $.Site.Params.baseDomain (default "" .uri) }}
+      {{ $url := printf "https://%s%s/%s" .subDomain $.Site.Params.baseDomain (default "" .uri) }}
       <a href="{{ $url }}" target="_blank" class="text-decoration-none text-dark d-block card card-hover cursorPointer h-100">
         <div class="card-body">
           {{ $img := resources.Get (path.Join "/img/" .icon) }}
