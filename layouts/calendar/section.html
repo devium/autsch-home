@@ -5,6 +5,19 @@
 
 {{ define "main" }}
 
+<div class="modal" id="eventModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 id="modalTitle" class="modal-title">Event Title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div id="modalBody" class="modal-body text-start">
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="container bg-light rounded p-2">
   <ul class="nav nav-tabs" role="tablist">
     {{ range $index, $item := .Site.Data.calendars.items }}
@@ -17,8 +30,8 @@
   </ul>
   <div id='calendar' class=my-2>
   </div>
-  <a id='nextcloud' target="_blank" class="btn btn-primary">In Nextcloud öffnen</a>
-  <button id='copyUrl' class="btn btn-primary" role="button")>
+  <a id='nextcloud' target="_blank" class="btn btn-primary m-1">In Nextcloud öffnen</a>
+  <button id='copyUrl' class="btn btn-primary m-1" role="button")>
     iCalendar URL kopieren
   </button>
 </div>
@@ -44,10 +57,45 @@
       },
       contentHeight: 600,
       headerToolbar: {
-        left: 'prev next today',
-        center: 'title',
-        right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
-      }
+        left: 'title',
+        center: '',
+        right: 'prev,next,today'
+      },
+      footerToolbar: {
+        center: 'dayGridMonth,listMonth'
+      },
+      eventClick: function(eventClickInfo) {
+        $('#modalTitle').text(eventClickInfo.event._def.title);
+
+        var body = $('#modalBody');
+        body.empty();
+        var props = eventClickInfo.event._def.extendedProps;
+
+        if (eventClickInfo.event.start !== null) {
+          body.append($('<h6>').text("Beginn:"));
+          body.append($('<p>').text(eventClickInfo.event.start.toLocaleString([], { dateStyle: 'short', timeStyle: 'short' })));
+        }
+        if (eventClickInfo.event.end !== null) {
+          body.append($('<h6>').text("Ende:"));
+          body.append($('<p>').text(eventClickInfo.event.end.toLocaleString([], { dateStyle: 'short', timeStyle: 'short' })));
+        }
+
+        if (props.description !== null) {
+          body.append($('<h6>').text("Beschreibung:"));
+          body.append($('<p>').text(props.description));
+        }
+        if (props.location !== null) {
+          body.append($('<h6>').text("Ort:"));
+          body.append($('<p>').text(props.location));
+        }
+      },
+      eventDidMount: function(arg) {
+        $(arg.el)
+          .attr('data-bs-toggle', 'modal')
+          .attr('data-bs-target', '#eventModal');
+      },
+      displayEventTime: false,
+      eventDisplay: 'block'
     });
     calendar.render();
 

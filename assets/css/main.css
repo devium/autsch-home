@@ -33,3 +33,7 @@ body {
   max-height: 140px;
   overflow: auto;
 }
+
+.fc-event {
+  cursor: pointer;
+}
