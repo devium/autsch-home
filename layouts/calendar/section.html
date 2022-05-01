@@ -20,9 +20,9 @@
 
 <div class="container bg-light rounded p-2">
   <ul class="nav nav-tabs" role="tablist">
-    {{ range $index, $item := .Site.Data.calendars.items }}
+    {{ range .Site.Data.calendars.items }}
     <li class="nav-item" role="presentation">
-      <a class="nav-link {{ if eq $index 0 }} active {{ end }}" href="#{{ .slug }}" data-bs-toggle="tab" type=button role="tab" onclick="renderCalendar('{{ .id }}')">
+      <a class="nav-link" href="#{{ .slug }}" data-bs-toggle="tab" type=button role="tab" onclick="renderCalendar({{ . }})">
         {{ .name | safeHTML }}
       </a>
     </li>
@@ -30,9 +30,9 @@
   </ul>
   <div id='calendar' class=my-2>
   </div>
-  <a id='nextcloud' target="_blank" class="btn btn-primary m-1">In Nextcloud öffnen</a>
+  <a id='nextcloud' target="_blank" class="btn btn-primary m-1">In Nextcloud öffnen <span class="bi bi-box-arrow-up-right"></span></a>
   <button id='copyUrl' class="btn btn-primary m-1" role="button")>
-    iCalendar URL kopieren
+    <span id='copyUrlIcon' class="bi bi-clipboard-plus"></span> iCalendar URL kopieren
   </button>
 </div>
 
@@ -48,83 +48,6 @@
 <script src="https://cdn.jsdelivr.net/npm/linkifyjs@3.0.5/dist/linkify.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/linkify-jquery@3.0.4/dist/linkify-jquery.min.js" integrity="sha256-uc66MYQfuzCk9FXabhgiV7PmXevUgraoxslXewknZ6U=" crossorigin="anonymous"></script>
 
-<script>
-  function renderCalendar(id) {
-    var calendarEl = document.getElementById('calendar');
-    var calendar = new FullCalendar.Calendar(calendarEl, {
-      themeSystem: 'bootstrap5',
-      locale: 'de',
-      initialView: 'dayGridMonth',
-      events: {
-        url: "https://next.{{ $.Site.Params.baseDomain }}/remote.php/dav/public-calendars/" + id + "?export",
-        format: "ics"
-      },
-      contentHeight: 600,
-      headerToolbar: {
-        left: 'title',
-        center: '',
-        right: 'prev,next,today'
-      },
-      footerToolbar: {
-        center: 'dayGridMonth,listMonth'
-      },
-      eventClick: function(eventClickInfo) {
-        $('#modalTitle').text(eventClickInfo.event._def.title);
-
-        var body = $('#modalBody');
-        body.empty();
-        var props = eventClickInfo.event._def.extendedProps;
-
-        if (eventClickInfo.event.start !== null) {
-          body.append($('<h6>').text("Beginn:"));
-          const weekday = eventClickInfo.event.start.toLocaleString([], { weekday: 'short' });
-          const date = eventClickInfo.event.start.toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' });
-          body.append($('<p>').text(weekday + ', ' + date));
-        }
-        if (eventClickInfo.event.end !== null) {
-          body.append($('<h6>').text("Ende:"));
-          const weekday = eventClickInfo.event.end.toLocaleString([], { weekday: 'short' });
-          const date = eventClickInfo.event.end.toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' });
-          body.append($('<p>').text(weekday + ', ' + date));
-        }
-
-        if (props.description !== null) {
-          body.append($('<h6>').text("Beschreibung:"));
-          body.append($('<p>').text(props.description)).linkify({ target: '_blank' });
-        }
-        if (props.location !== null) {
-          body.append($('<h6>').text("Ort:"));
-          body.append($('<p>').text(props.location)).linkify({ target: '_blank' });
-        }
-      },
-      eventDidMount: function(arg) {
-        $(arg.el)
-          .attr('data-bs-toggle', 'modal')
-          .attr('data-bs-target', '#eventModal');
-      },
-      displayEventTime: false,
-      eventDisplay: 'block'
-    });
-    calendar.render();
-
-    $('#copyUrl').click(function () {
-      navigator.clipboard.writeText('webcal://next.{{ $.Site.Params.baseDomain }}/remote.php/dav/public-calendars/' + id + '/?export');
-    });
-    $('#nextcloud').attr('href', 'https://next.{{ $.Site.Params.baseDomain }}/apps/calendar/p/' + id);
-  }
-
-  document.addEventListener('DOMContentLoaded', function() {
-    renderCalendar({{ (index .Site.Data.calendars.items 0).id }})
-
-    var hash = location.hash.replace(/^#/, ''); 
-    if (hash) {
-      console.log($('a[href="#' + hash + '"].nav-link'));
-      $('a[href="#' + hash + '"].nav-link').tab('show');
-    }
-
-    $('.nav-tabs a').on('shown.bs.tab', function (e) {
-      window.location.hash = e.target.hash;
-    })
-  });
-</script>
+{{ $calendarjs := resources.Get "/js/calendar.js" | resources.ExecuteAsTemplate "calendar.js" . | minify | fingerprint }}
+<script src="{{ $calendarjs.RelPermalink }}" integrity="{{ $calendarjs.Data.integrity }}"></script>
 {{ end }}
