@@ -1,5 +1,13 @@
 items:
-  - name: JungeSMünchen (inoffiziell)
-    id: r9nPEi3bKG5LMnpK
   - name: München
     id: a52MKPxagEiiRq8e
+    slug: muc
+  - name: JungeSMünchen (inoffiziell)
+    id: r9nPEi3bKG5LMnpK
+    slug: jungesmuenchen
+  - name: München (vanilla)
+    id: cLBxgpoy3e5gSmQi
+    slug: mucvanilla
+  - name: Überregional
+    id: XtrzgcemejsDFf89
+    slug: ueberregional
