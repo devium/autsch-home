@@ -37,3 +37,7 @@ body {
 .fc-event {
   cursor: pointer;
 }
+
+#modalBody p {
+  white-space: pre-line;
+}

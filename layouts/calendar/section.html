@@ -39,10 +39,13 @@
 {{ end }}
 
 {{ define "js" }}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="crossorigin="anonymous"> </script>
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.js" integrity="sha256-XCdgoNaBjzkUaEJiauEq+85q/xi/2D4NcB3ZHwAapoM=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ical.js/1.5.0/ical.min.js" integrity="sha512-0izBc1upGYnrS1u1MX7QR+sjFIxZWxLVdNI7cUoHHCutDr5ENjuQRZuS+v+3NFNGfwHSrPoHzBzED0rV651tGw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/icalendar@5.11.0/main.global.min.js" integrity="sha256-ntXRERg+VVCcjXguw81eZystarWC9Tqx3mlgtLNgYVk=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/locales-all.min.js" integrity="sha256-GcByKJnun2NoPMzoBsuCb4O2MKiqJZLlHTw3PJeqSkI=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/linkifyjs@3.0.5/dist/linkify.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/linkify-jquery@3.0.4/dist/linkify-jquery.min.js" integrity="sha256-uc66MYQfuzCk9FXabhgiV7PmXevUgraoxslXewknZ6U=" crossorigin="anonymous"></script>
 
 <script>
   function renderCalendar(id) {
@@ -73,20 +76,24 @@
 
         if (eventClickInfo.event.start !== null) {
           body.append($('<h6>').text("Beginn:"));
-          body.append($('<p>').text(eventClickInfo.event.start.toLocaleString([], { dateStyle: 'short', timeStyle: 'short' })));
+          const weekday = eventClickInfo.event.start.toLocaleString([], { weekday: 'short' });
+          const date = eventClickInfo.event.start.toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' });
+          body.append($('<p>').text(weekday + ', ' + date));
         }
         if (eventClickInfo.event.end !== null) {
           body.append($('<h6>').text("Ende:"));
-          body.append($('<p>').text(eventClickInfo.event.end.toLocaleString([], { dateStyle: 'short', timeStyle: 'short' })));
+          const weekday = eventClickInfo.event.end.toLocaleString([], { weekday: 'short' });
+          const date = eventClickInfo.event.end.toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' });
+          body.append($('<p>').text(weekday + ', ' + date));
         }
 
         if (props.description !== null) {
           body.append($('<h6>').text("Beschreibung:"));
-          body.append($('<p>').text(props.description));
+          body.append($('<p>').text(props.description)).linkify();
         }
         if (props.location !== null) {
           body.append($('<h6>').text("Ort:"));
-          body.append($('<p>').text(props.location));
+          body.append($('<p>').text(props.location)).linkify();
         }
       },
       eventDidMount: function(arg) {
