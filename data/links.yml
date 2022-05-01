@@ -4,7 +4,7 @@ items:
     icon: icon_jitsi.svg
     bg: true
   - title: Kalender
-    subDomain: ""
+    subDomain: www.
     uri: calendar
     icon: icon_calendar.svg
   - title: HedgeDoc
