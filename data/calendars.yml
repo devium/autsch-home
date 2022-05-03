@@ -1,13 +1,13 @@
 items:
   - name: München
     id: a52MKPxagEiiRq8e
-    slug: muc
+    color: royalblue
   - name: JungeSMünchen (inoffiziell)
     id: r9nPEi3bKG5LMnpK
-    slug: jungesmuenchen
+    color: darkred
   - name: München (vanilla)
     id: cLBxgpoy3e5gSmQi
-    slug: mucvanilla
+    color: tan
   - name: Überregional
     id: XtrzgcemejsDFf89
-    slug: ueberregional
+    color: rebeccapurple

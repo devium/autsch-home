@@ -14,26 +14,63 @@
       </div>
       <div id="modalBody" class="modal-body text-start">
       </div>
+      <div id="modalFooter" class="modal-footer">
+        <span id="modalFooterBadge" class="badge">&nbsp;</span>
+        <span id="modalFooterText"></span>
+      </div>
     </div>
   </div>
 </div>
 
 <div class="container bg-light rounded p-2">
-  <ul class="nav nav-tabs" role="tablist">
-    {{ range .Site.Data.calendars.items }}
-    <li class="nav-item" role="presentation">
-      <a class="nav-link" href="#{{ .slug }}" data-bs-toggle="tab" type=button role="tab" onclick="renderCalendar({{ . }})">
-        {{ .name | safeHTML }}
-      </a>
-    </li>
-    {{ end }}
-  </ul>
-  <div id='calendar' class=my-2>
+  <div id="calendars-dropdown" class="dropdown text-start">
+    <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+      Kalender
+    </button>
+    <ul class="dropdown-menu dropdown-menu-form">
+      <table class="table align-middle">
+        <thead>
+          <tr>
+            <th>
+              <input class="form-check-input" type="checkbox" value="" id="checkbox-all" onclick="toggleAllCalendars();" checked>
+              <label class="form-check-label" for="checkbox-all">
+                Alle / Keine
+              </label>
+            </th>
+            <th>In Nextcloud öffnen</th>
+            <th>iCal-Link kopieren</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {{ range .Site.Data.calendars.items }}
+          <tr>
+            <td>
+              <input class="form-check-input calendar-checkbox" type="checkbox" value="" id="{{ .id }}" onclick="refreshCalendars();" checked>
+              <span id="color-{{ .id }}" class="badge" style="background-color: {{ .color }}">&nbsp;</span>
+              <label class="form-check-label user-select-none" for="{{ .id }}">
+                {{ .name }}
+              </label>
+            </td>
+
+            <td class="text-center">
+              <a href="https://next.{{ $.Site.Params.baseDomain }}/apps/calendar/p/{{ .id }}" target="_blank" class="btn btn-xs"><span class="bi bi-box-arrow-up-right"></span></a>
+            </td>
+
+            <td class="text-center">
+              <button class="btn btn-xs" role="button" onclick="copyICal({{ .id }});">
+                <span id='copy-ical-icon-{{ .id }}' class="bi bi-clipboard-plus"></span>
+              </button>
+            </td>
+          </tr>
+          {{ end }}
+        </tbody>
+      </table>
+    </ul>
   </div>
-  <a id='nextcloud' target="_blank" class="btn btn-primary m-1">In Nextcloud öffnen <span class="bi bi-box-arrow-up-right"></span></a>
-  <button id='copyUrl' class="btn btn-primary m-1" role="button")>
-    <span id='copyUrlIcon' class="bi bi-clipboard-plus"></span> iCalendar URL kopieren
-  </button>
+
+  <div id='calendar' class="my-2">
+  </div>
 </div>
 
 {{ end }}

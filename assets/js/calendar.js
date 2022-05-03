@@ -1,7 +1,8 @@
 var fullCalendar = null;
+const calendars = {{ .Site.Data.calendars.items | jsonify }}
 
-function createCalendar(calendar) {
-  var calendarEl = document.getElementById('calendar');
+function createCalendar() {
+  const calendarEl = document.getElementById('calendar');
 
   fullCalendar = new FullCalendar.Calendar(calendarEl, {
     themeSystem: 'bootstrap5',
@@ -14,20 +15,26 @@ function createCalendar(calendar) {
     eventClick: function(eventClickInfo) {
       $('#modalTitle').text(eventClickInfo.event._def.title);
 
-      var body = $('#modalBody');
+      const calendar = calendars.find(function(cal) { return cal.id === eventClickInfo.event.source.id });
+
+      const body = $('#modalBody');
       body.empty();
-      var props = eventClickInfo.event._def.extendedProps;
+
+      const props = eventClickInfo.event._def.extendedProps;
+      const allDay = eventClickInfo.event.allDay;
 
       if (eventClickInfo.event.start !== null) {
         body.append($('<h6>').text("Beginn:"));
         const weekday = eventClickInfo.event.start.toLocaleString([], { weekday: 'short' });
-        const date = eventClickInfo.event.start.toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' });
+        const options = allDay ? { dateStyle: 'medium' } : { dateStyle: 'medium', timeStyle: 'short' }
+        const date = eventClickInfo.event.start.toLocaleString([], options);
         body.append($('<p>').text(weekday + ', ' + date));
       }
       if (eventClickInfo.event.end !== null) {
         body.append($('<h6>').text("Ende:"));
         const weekday = eventClickInfo.event.end.toLocaleString([], { weekday: 'short' });
-        const date = eventClickInfo.event.end.toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' });
+        const options = allDay ? { dateStyle: 'medium' } : { dateStyle: 'medium', timeStyle: 'short' }
+        const date = eventClickInfo.event.end.toLocaleString([], options);
         body.append($('<p>').text(weekday + ', ' + date));
       }
 
@@ -39,6 +46,9 @@ function createCalendar(calendar) {
         body.append($('<h6>').text("Ort:"));
         body.append($('<p>').text(props.location)).linkify({ target: '_blank' });
       }
+
+      $('#modalFooterBadge').css('background-color', calendar.color);
+      $('#modalFooterText').text(calendar.name);
     },
     eventDidMount: function(arg) {
       $(arg.el)
@@ -53,39 +63,45 @@ function createCalendar(calendar) {
   return fullCalendar;
 }
 
-function renderCalendar(calendar) {
+function renderCalendar() {
   if (fullCalendar === null) {
-    fullCalendar = createCalendar(calendar);
+    fullCalendar = createCalendar();
   }
-  fullCalendar.setOption('events', {
-    url: "https://next.{{ $.Site.Params.baseDomain }}/remote.php/dav/public-calendars/" + calendar.id + "?export",
-    format: "ics"
+  var calendarOptions = $('.calendar-checkbox').filter(function() { return this.checked; }).map(function() {
+    return {
+      id: this.id,
+      url: 'https://next.{{ $.Site.Params.baseDomain }}/remote.php/dav/public-calendars/' + this.id + '?export',
+      format: 'ics',
+      color: $('#color-' + this.id).css('background-color'),
+    };
   });
 
-  $('#copyUrl').click(function () {
-    navigator.clipboard.writeText('webcal://next.{{ $.Site.Params.baseDomain }}/remote.php/dav/public-calendars/' + calendar.id + '/?export');
-    $('#copyUrlIcon').removeClass("bi-clipboard-plus").addClass("bi-clipboard-check");
-    setTimeout(function() {
-      $('#copyUrlIcon').removeClass("bi-clipboard-check").addClass("bi-clipboard-plus");
-    }, 2000);
-  });
-  $('#nextcloud').attr('href', 'https://next.{{ $.Site.Params.baseDomain }}/apps/calendar/p/' + calendar.id);
+  fullCalendar.setOption('eventSources', calendarOptions.get());
+}
+
+function refreshCalendars() {
+  renderCalendar();
+}
+
+function toggleAllCalendars() {
+  $('#calendars-dropdown .calendar-checkbox').prop('checked', $('#checkbox-all')[0].checked);
+  refreshCalendars();
+}
+
+function copyICal(id) {
+  navigator.clipboard.writeText('webcal://next.{{ $.Site.Params.baseDomain }}/remote.php/dav/public-calendars/' + id + '/?export');
+
+  const icon = $('#copy-ical-icon-' + id)
+  icon.removeClass("bi-clipboard-plus").addClass("bi-clipboard-check");
+  setTimeout(function() {
+    icon.removeClass("bi-clipboard-check").addClass("bi-clipboard-plus");
+  }, 2000);
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-  var calendars = {{ .Site.Data.calendars.items | jsonify }};
+  refreshCalendars();
 
-  var hash = location.hash.replace(/^#/, '');
-  var calendar = calendars.find(calendar => calendar.slug == hash);
-
-  if (!calendar) {
-    calendar = calendars[0];
-  }
-  renderCalendar(calendar);
-
-  $('a[href="#' + calendar.slug + '"].nav-link').tab('show');
-
-  $('.nav-tabs a').on('shown.bs.tab', function (e) {
-    window.location.hash = e.target.hash;
-  })
+  $('#calendars-dropdown').click(function(e) {
+    e.stopPropagation();
+  });
 });

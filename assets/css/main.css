@@ -41,3 +41,10 @@ body {
 #modalBody p {
   white-space: pre-line;
 }
+
+.btn-xs {
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 0.3rem;
+  padding-right: 0.3rem;
+}
