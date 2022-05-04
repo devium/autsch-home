@@ -1,15 +1,19 @@
-html, body, .site-container {
+body {
   min-height: 100vh;
 }
 
 body {
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-align: center;
-  align-items: center;
   background-image: linear-gradient(160deg, black, grey);
   background-size: cover;
   flex-wrap: wrap;
+}
+
+#navbar {
+  z-index: 1030;
+}
+
+#navbar-pad {
+  padding: 28px;
 }
 
 .card {

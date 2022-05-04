@@ -93,6 +93,17 @@ function notify(room_name) {
   }
 }
 
+$('#roomname').keyup(function(event) {
+  if (event.keyCode === 13) {
+    $('#openroom').click();
+  }
+});
+
+var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+  return new bootstrap.Tooltip(tooltipTriggerEl)
+})
+
 $(function() {
   refresh(false);
   setInterval(function() {
