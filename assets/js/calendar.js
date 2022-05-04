@@ -63,7 +63,7 @@ function createCalendar() {
   return fullCalendar;
 }
 
-function renderCalendar() {
+function refreshCalendars() {
   if (fullCalendar === null) {
     fullCalendar = createCalendar();
   }
@@ -77,10 +77,6 @@ function renderCalendar() {
   });
 
   fullCalendar.setOption('eventSources', calendarOptions.get());
-}
-
-function refreshCalendars() {
-  renderCalendar();
 }
 
 function toggleAllCalendars() {

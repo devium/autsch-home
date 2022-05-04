@@ -24,7 +24,7 @@
 
 <div class="container bg-light rounded p-2">
   <div id="calendars-dropdown" class="dropdown text-start">
-    <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+    <button class="btn btn-primary dropdown-toggle mt-1" type="button" data-bs-toggle="dropdown">
       Kalender
     </button>
     <ul class="dropdown-menu dropdown-menu-form">
@@ -32,7 +32,7 @@
         <thead>
           <tr>
             <th>
-              <input class="form-check-input" type="checkbox" value="" id="checkbox-all" onclick="toggleAllCalendars();" checked>
+              <input class="form-check-input" type="checkbox" value="" id="checkbox-all" onclick="toggleAllCalendars();">
               <label class="form-check-label" for="checkbox-all">
                 Alle / Keine
               </label>
@@ -46,7 +46,7 @@
           {{ range .Site.Data.calendars.items }}
           <tr>
             <td>
-              <input class="form-check-input calendar-checkbox" type="checkbox" value="" id="{{ .id }}" onclick="refreshCalendars();" checked>
+              <input class="form-check-input calendar-checkbox" type="checkbox" value="" id="{{ .id }}" onclick="refreshCalendars();" {{ if .checked }}checked{{ end }}>
               <span id="color-{{ .id }}" class="badge" style="background-color: {{ .color }}">&nbsp;</span>
               <label class="form-check-label user-select-none" for="{{ .id }}">
                 {{ .name }}
@@ -67,6 +67,10 @@
         </tbody>
       </table>
     </ul>
+
+    <a href="https://next.{{ $.Site.Params.baseDomain }}/apps/calendar" target="_blank" class="btn btn-primary mt-1">
+      Eventvorschlag einreichen<span class="px-2 bi bi-box-arrow-up-right"></span>
+    </a>
   </div>
 
   <div id='calendar' class="my-2">
