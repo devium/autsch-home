@@ -27,7 +27,7 @@
         <thead>
           <tr>
             <th>
-              <input class="form-check-input" type="checkbox" value="" id="checkbox-all" onclick="toggleAllCalendars();">
+              <input class="form-check-input" type="checkbox" value="" id="checkbox-all">
               <label class="form-check-label" for="checkbox-all">
                 Alle / Keine
               </label>
@@ -41,7 +41,7 @@
           {{ range .Site.Data.calendars.items }}
           <tr>
             <td>
-              <input class="form-check-input calendar-checkbox" type="checkbox" value="" id="{{ .id }}" onclick="refreshCalendars();" {{ if .checked }}checked{{ end }}>
+              <input class="form-check-input calendar-checkbox" type="checkbox" value="" id="{{ .id }}" {{ if .checked -}} checked {{- end }}>
               <span id="color-{{ .id }}" class="badge" style="background-color: {{ .color }}">&nbsp;</span>
               <label class="form-check-label user-select-none" for="{{ .id }}">
                 {{ .name }}
@@ -53,8 +53,8 @@
             </td>
 
             <td class="text-center">
-              <button class="btn btn-xs" role="button" onclick="copyICal({{ .id }});">
-                <span id='copy-ical-icon-{{ .id }}' class="bi bi-clipboard-plus"></span>
+              <button id="copy-ical-{{ .id }}" class="btn btn-xs copy-ical" role="button">
+                <span id="copy-ical-icon-{{ .id }}" class="bi bi-clipboard-plus"></span>
               </button>
             </td>
           </tr>

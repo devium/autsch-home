@@ -99,10 +99,18 @@ $('#roomname').keyup(function(event) {
   }
 });
 
-var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+$('#notification-request').click(function(event) {
+  requestNotificationPermission();
+});
+
+$('#openroom').click(function(event) {
+  window.open('https://login.hang.{{ $.Site.Params.baseDomain }}/' + $('#roomname').val(), '_blank')
+});
+
+var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
 var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
   return new bootstrap.Tooltip(tooltipTriggerEl)
-})
+});
 
 $(function() {
   refresh(false);

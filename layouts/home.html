@@ -7,7 +7,7 @@
   <div class="dropdown d-inline-block h2">
     <button type="button" class="btn dropdown-toggle text-white" data-bs-toggle="dropdown"></button>
     <ul class="dropdown-menu dropdown-menu-end">
-      <li><a class="dropdown-item" href="#" onclick="requestNotificationPermission()">Aktiviere Raumbenachrichtungen</a></li>
+      <li><a id="notification-request" class="dropdown-item" href="#">Aktiviere Raumbenachrichtungen</a></li>
     </ul>
   </div>
   <div id="rooms" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 justify-content-center text-start">
@@ -19,7 +19,7 @@
         <div class="card-body">
           <div class="input-group my-4" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Räume, die mit _ beginnen, werden nicht gelistet.">
             <input id="roomname" class="form-control" type="text" placeholder="Name">
-            <button id="openroom" type="button" class="btn btn-outline-dark" onclick="window.open('https://login.hang.{{ $.Site.Params.baseDomain }}/' + $('#roomname').val(), '_blank')">
+            <button id="openroom" type="button" class="btn btn-outline-dark">
               Eröffnen
             </button>
           </div>

@@ -94,6 +94,19 @@ function copyICal(id) {
   }, 2000);
 }
 
+$('#checkbox-all').click(function(e) {
+  toggleAllCalendars();
+});
+
+$('.calendar-checkbox').click(function(e) {
+  refreshCalendars();
+});
+
+$('.copy-ical').click(function(e) {
+  const id = e.delegateTarget.id.replace('copy-ical-', '');
+  copyICal(id);
+});
+
 document.addEventListener('DOMContentLoaded', function() {
   refreshCalendars();
 
