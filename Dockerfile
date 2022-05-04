@@ -6,6 +6,7 @@ COPY assets /src/assets
 COPY content /src/content
 COPY data /src/data
 COPY layouts /src/layouts
+COPY static /src/static
 COPY config.toml /src/config.toml
 
 ARG HUGO_VERSION=0.94.1
