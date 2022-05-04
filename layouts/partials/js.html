@@ -1,1 +1,13 @@
 {{ template "_internal/google_analytics_async.html" . }}
+
+{{ $page := . }}
+
+{{- range .Params.js -}}
+  {{- if eq (substr .url 0 8) "https://" -}}
+    {{- $js := resources.GetRemote .url }}
+    <script src="{{ $js.RelPermalink }}" {{- if isset . "fingerprint" -}} integrity="{{ .fingerprint }}" {{- end }}></script>
+  {{ else }}
+    {{- $js := resources.Get .url | resources.ExecuteAsTemplate (path.Base .url) $page | minify | fingerprint }}
+    <script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}"></script>
+  {{ end -}}
+{{ end -}}

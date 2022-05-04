@@ -1,5 +1,5 @@
 var fullCalendar = null;
-const calendars = {{ .Site.Data.calendars.items | jsonify }}
+const calendars = {{ .Site.Data.calendars.items | jsonify }};
 
 function createCalendar() {
   const calendarEl = document.getElementById('calendar');

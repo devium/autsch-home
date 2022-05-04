@@ -6,7 +6,3 @@ enableRobotsTXT = true
 
 [params]
 baseDomain = 'dev.autsch.org'
-
-[params.subdomains]
-jitsi = 'hang'
-jitsiKeycloak = 'login.hang'

@@ -1,4 +1,4 @@
-{{ $jitsiUrl := printf "https://%s.%s" $.Site.Params.subdomains.jitsi $.Site.Params.baseDomain }}
+{{ $jitsiUrl := printf "https://hang.%s" $.Site.Params.baseDomain }}
 
 function requestNotificationPermission() {
   if (!Notification) {
