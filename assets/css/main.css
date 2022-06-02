@@ -55,6 +55,23 @@ body {
   padding-bottom: 0 !important ;
 }
 
+.fc-header-toolbar {
+  margin-bottom: 12px !important;
+}
+
+.fc-footer-toolbar {
+  margin-top: 12px !important;
+}
+
+.container-calendar .btn {
+  padding-top: 0.25rem;
+  padding-right: 0.5rem;
+  padding-bottom: 0.25rem;
+  padding-left: 0.5rem;
+  font-size: 0.875rem;
+  border-radius: 0.2rem
+}
+
 #modalBody p {
   white-space: pre-line;
   overflow-wrap: break-word;
