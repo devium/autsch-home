@@ -8,7 +8,7 @@ function createCalendar() {
     themeSystem: 'bootstrap5',
     locale: 'de',
     initialView: 'dayGridMonth',
-    contentHeight: 600,
+    contentHeight: 'auto',
     footerToolbar: {
       center: 'dayGridMonth,listMonth'
     },

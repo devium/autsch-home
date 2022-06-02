@@ -42,6 +42,19 @@ body {
   cursor: pointer;
 }
 
+.fc-daygrid-event {
+  font-size: 0.7rem;
+}
+
+.fc-daygrid-day-events {
+  margin-bottom: 4px !important;
+}
+
+.fc-daygrid-day-number {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important ;
+}
+
 #modalBody p {
   white-space: pre-line;
   overflow-wrap: break-word;
