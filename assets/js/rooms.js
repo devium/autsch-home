@@ -43,36 +43,78 @@ function refresh(notifications_enabled) {
 };
 
 function renderRoom(room) {
-  var col = $('#rooms').append(
-    $('<div>', { class: "col"}).append(
-      $('<a>', {
-        class: 'text-decoration-none text-dark d-block card card-hover cursor-pointer h-100',
-        href: '{{ $jitsiUrl }}/' + room.name,
-        target: '_blank'
-      }).append(
-        $('<div>', { class: 'card-header text-center' }).append(
-          $('<h5>', { class: 'text-truncate card-title' }).text(room.name)
+  $('#rooms').append(
+    $('<div>', { class: 'col'}).append(
+      $('<div>', { class: 'd-block card card-hover h-100' }).append(
+        $('<div>', { class: 'card-header text-center d-flex' }).append(
+          $('<a>', {
+            class: 'h5 text-decoration-none flex-grow-1 text-truncate text-dark card-title',
+            href: '{{ $jitsiUrl }}/' + room.name,
+            target: '_blank'
+          }).text(room.name)
+        ).append(
+          $('<div>', { class: 'dropdown' }).append(
+            $('<button>', {
+              class: 'btn btn-sm btn-outline-dark bi bi-three-dots-vertical ms-1',
+              type: 'button',
+              'data-bs-toggle': 'dropdown'
+            })
+          ).append(
+            $('<ul>', { class: 'dropdown-menu dropdown-menu-end' }).append(
+              $('<li>').append(
+                $('<a>', {
+                  class: 'dropdown-item text-end',
+                  href: '{{ $jitsiUrl }}/' + room.name,
+                  target: '_blank'
+                }).text('Als Gast beitreten').append(
+                  $('<span>', { class: 'bi bi-person ps-2' })
+                ).append(
+                  $('<span>', { class: 'bi bi-box-arrow-in-right' })
+                )
+              )
+            ).append(
+              $('<li>').append(
+                $('<a>', {
+                  class: 'dropdown-item text-end',
+                  href: 'https://login.hang.{{ $.Site.Params.baseDomain }}/' + room.name,
+                  target: '_blank'
+                }).text('Anmelden und beitreten').append(
+                  $('<span>', { class: 'bi bi-key ps-2' })
+                ).append(
+                  $('<span>', { class: 'bi bi-box-arrow-in-right' })
+                )
+              )
+            )
+          )
         )
       ).append(
-        $('<div>', { class: 'card-body' }).append(
-          $('<h6>', { class: 'mb-0' }).text('Hauptraum (' + room.occupants.length + '):' )
-        ).append(
-          $('<div>').append(
-            $.map(room.occupants, function(occupant, _) {
-              return $('<span>', { class: 'badge bg-light text-dark mx-1' }).text(occupant.name);
+        $('<a>', {
+          class: 'text-decoration-none text-dark',
+          href: '{{ $jitsiUrl }}/' + room.name,
+          target: '_blank'
+          }).append(
+          $('<div>', {
+            class: 'card-body'
+          }).append(
+            $('<h6>', { class: 'mb-0' }).text('Hauptraum (' + room.occupants.length + '):' )
+          ).append(
+            $('<div>').append(
+              $.map(room.occupants, function(occupant, _) {
+                return $('<span>', { class: 'badge bg-light text-dark mx-1' }).text(occupant.name);
+              })
+            )
+          ).append(
+            $.map(room.breakoutRooms, function(breakoutRoom, _) {
+              return $.merge(
+                [$('<h6>', { class: 'mb-0' }).text(breakoutRoom.name + ' (' + breakoutRoom.occupants.length + '):')],
+                $('<div>').append(
+                  $.map(breakoutRoom.occupants, function(occupant, _) {
+                    return $('<span>', { class: 'badge bg-light text-dark mx-1' }).text(occupant.name);
+                  })
+                )
+              );
             })
           )
-        ).append(
-          $.map(room.breakoutRooms, function(breakoutRoom, _) {
-            return $.merge(
-              [$('<h6>', { class: 'mb-0' }).text(breakoutRoom.name + ' (' + breakoutRoom.occupants.length + '):')],
-              $('<div>').append(
-                $.map(breakoutRoom.occupants, function(occupant, _) {
-                  return $('<span>', { class: 'badge bg-light text-dark mx-1' }).text(occupant.name);
-                })
-              )
-            );
-          })
         )
       )
     )
@@ -107,8 +149,7 @@ $('#openroom').click(function(event) {
   window.open('https://login.hang.{{ $.Site.Params.baseDomain }}/' + $('#roomname').val(), '_blank')
 });
 
-var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+$('[data-bs-toggle="tooltip"]').get().map(function (tooltipTriggerEl) {
   return new bootstrap.Tooltip(tooltipTriggerEl)
 });
 
@@ -116,5 +157,5 @@ $(function() {
   refresh(false);
   setInterval(function() {
     refresh(true);
-  }, 10000);
+  }, 15000);
 });
