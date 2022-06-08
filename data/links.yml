@@ -1,28 +1,36 @@
-items:
-  - title: Jitsi
-    subDomain: hang.
-    icon: icon_jitsi.svg
-    bg: true
-  - title: Kalender
-    subDomain: www.
-    uri: calendar
-    icon: icon_calendar.svg
-  - title: HedgeDoc
-    subDomain: doc.
-    icon: icon_hedgedoc.svg
-  - title: Element
-    subDomain: element.
-    icon: icon_element.svg
-  - title: Account
-    subDomain: auth.
-    uri: realms/autsch/account
-    icon: icon_keycloak.svg
-  - title: Nextcloud
-    subDomain: next.
-    icon: icon_nextcloud.svg
-  - title: Work Adventure
-    subDomain: play.
-    icon: icon_workadventure.svg
-  - title: Grafana
-    subDomain: grafana.
-    icon: icon_grafana.svg
+- title: Chat
+  info: Alle Chat-Apps funktionieren gleichermaßen, sofern der Homeserver "DOMAIN" eingestellt wird.
+  links:
+    - title: Element (Web)
+      url: https://element.DOMAIN
+      icon: icon_element.svg
+
+    - title: Element (App)
+      url: https://element.io/get-started#download
+      icon: icon_element.svg
+
+    - title: FluffyChat (App)
+      url: https://fluffychat.im
+      icon: icon_fluffychat.svg
+
+- title: Apps
+  links:
+    - title: HedgeDoc
+      url: https://doc.DOMAIN
+      icon: icon_hedgedoc.svg
+    - title: Kalender
+      url: https://www.DOMAIN/calendar
+      icon: icon_calendar.svg
+      sameTab: true
+    - title: Account
+      uri: https://auth.DOMAIN/realms/autsch/account
+      icon: icon_keycloak.svg
+    - title: Nextcloud
+      url: https://next.DOMAIN
+      icon: icon_nextcloud.svg
+    - title: Work Adventure
+      url: https://play.DOMAIN
+      icon: icon_workadventure.svg
+    - title: Grafana
+      url: https://grafana.DOMAIN
+      icon: icon_grafana.svg

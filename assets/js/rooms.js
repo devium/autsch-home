@@ -30,7 +30,7 @@ function refresh(notifications_enabled) {
       renderRoom(room);
     });
 
-    $('#roomsHeading').text("Jitsi-Raumübersicht (" + data.num_rooms + ")")
+    $('#numRooms').text("(" + data.num_rooms + ")")
 
     if (notifications_enabled) {
       var roomDiff = $(roomsNew).not(rooms);
@@ -46,7 +46,7 @@ function renderRoom(room) {
   var col = $('#rooms').append(
     $('<div>', { class: "col"}).append(
       $('<a>', {
-        class: 'text-decoration-none text-dark d-block card card-hover cursorPointer h-100',
+        class: 'text-decoration-none text-dark d-block card card-hover cursor-pointer h-100',
         href: '{{ $jitsiUrl }}/' + room.name,
         target: '_blank'
       }).append(

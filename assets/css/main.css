@@ -20,6 +20,10 @@ body {
   opacity: 0.9;
 }
 
+.apps .card-title {
+  margin-bottom: 0;
+}
+
 .card-hover:hover {
   opacity: 1.0;
 }
@@ -28,7 +32,7 @@ body {
   width: 800px;
 }
 
-.cursorPointer:hover {
+.cursor-pointer:hover {
   cursor: pointer;
 }
 

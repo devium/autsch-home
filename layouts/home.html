@@ -1,15 +1,11 @@
 {{ define "main" }}
 
 <div class="container text-center my-3">
-  <h2 id="roomsHeading" class="text-white d-inline-block">
+  <h2 class="text-white d-inline-block">
     Jitsi-Raumübersicht
+    <span id="numRooms">(0)</span>
+    <span id="notification-request" class="cursor-pointer h4 bi bi-bell-fill" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Aktiviere Raumbenachrichtigungen"/>
   </h2>
-  <div class="dropdown d-inline-block h2">
-    <button type="button" class="btn dropdown-toggle text-white" data-bs-toggle="dropdown"></button>
-    <ul class="dropdown-menu dropdown-menu-end">
-      <li><a id="notification-request" class="dropdown-item" href="#">Aktiviere Raumbenachrichtungen</a></li>
-    </ul>
-  </div>
   <div id="rooms" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 justify-content-center text-start">
     <div class="col">
       <div class="text-dark d-block card">
@@ -29,24 +25,30 @@
   </div>
 </div>
 
-<div class="container my-3">
-  <h2 class="text-white text-center">Apps</h2>
-  <div class="row row-cols-2 row-cols-md-3 g-4 justify-content-center">
-    {{ range .Site.Data.links.items }}
+{{ range .Site.Data.links }}
+<div class="container apps my-3">
+  <h2 class="text-white text-center">
+    {{ .title }}
+    {{ if .info }}
+    <span class="cursor-pointer h4 bi bi-question-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{ replace .info "DOMAIN" $.Site.Params.baseDomain }}"/>
+    {{ end }}
+  </h2>
+  <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 g-3 justify-content-center">
+    {{ range .links }}
     <div class="col">
-      {{ $url := printf "https://%s%s/%s" .subDomain $.Site.Params.baseDomain (default "" .uri) }}
-      <a href="{{ $url }}" target="_blank" class="text-decoration-none text-dark text-center d-block card card-hover cursorPointer h-100">
+      <a href="{{ replace .url "DOMAIN" $.Site.Params.baseDomain }}" {{- if not .sameTab }} target="_blank" {{ end -}} class="text-decoration-none text-dark text-center d-block card card-hover h-100">
         <div class="card-body">
           {{ $img := resources.Get (path.Join "/img/" .icon) }}
-          <img src="{{ $img.RelPermalink }}" class="card-icon mx-auto mb-2 {{ if .bg }} bg-primary bg-gradient {{ end }} rounded" width="56px">
-          <h5 class="card-title">
+          <img src="{{ $img.RelPermalink }}" class="card-icon mx-auto mb-2 rounded" width="48px">
+          <h6 class="card-title">
             {{ .title | safeHTML }}
-          </h5>
+          </h6>
         </div>
       </a>
     </div>
     {{ end }}
   </div>
 </div>
+{{ end }}
 
 {{ end }}
