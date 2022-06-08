@@ -23,7 +23,7 @@
       icon: icon_calendar.svg
       sameTab: true
     - title: Account
-      uri: https://auth.DOMAIN/realms/autsch/account
+      url: https://auth.DOMAIN/realms/autsch/account
       icon: icon_keycloak.svg
     - title: Nextcloud
       url: https://next.DOMAIN
