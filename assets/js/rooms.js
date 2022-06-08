@@ -51,7 +51,7 @@ function renderRoom(room) {
         target: '_blank'
       }).append(
         $('<div>', { class: 'card-header text-center' }).append(
-          $('<h5>', { class: 'text-truncate' }).text(room.name)
+          $('<h5>', { class: 'text-truncate card-title' }).text(room.name)
         )
       ).append(
         $('<div>', { class: 'card-body' }).append(

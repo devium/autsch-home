@@ -36,6 +36,10 @@ body {
   cursor: pointer;
 }
 
+#rooms .card-title {
+  min-height: 1.6rem;
+}
+
 #rooms .card-body {
   min-height: 140px;
   max-height: 140px;
