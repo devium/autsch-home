@@ -63,6 +63,11 @@ function createCalendar() {
   return fullCalendar;
 }
 
+function loadLocalStorage() {
+  const calendarsActive = JSON.parse(localStorage.getItem('calendars') || '{}');
+  $.each(calendarsActive, function(id, checked) { $('#' + id).prop('checked', checked) });
+}
+
 function refreshCalendars() {
   if (fullCalendar === null) {
     fullCalendar = createCalendar();
@@ -77,6 +82,11 @@ function refreshCalendars() {
   });
 
   fullCalendar.setOption('eventSources', calendarOptions.get());
+
+  const calendarsActive = Object.fromEntries($('.calendar-checkbox').map(function() {
+    return [[this.id, this.checked]];
+  }));
+  localStorage.setItem('calendars', JSON.stringify(calendarsActive));
 }
 
 function toggleAllCalendars() {
@@ -108,6 +118,7 @@ $('.copy-ical').click(function(e) {
 });
 
 document.addEventListener('DOMContentLoaded', function() {
+  loadLocalStorage();
   refreshCalendars();
 
   $('#calendars-dropdown').click(function(e) {
