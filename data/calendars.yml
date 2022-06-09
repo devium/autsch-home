@@ -3,18 +3,27 @@ items:
     id: a52MKPxagEiiRq8e
     color: royalblue
     checked: true
+
   - name: JungeSMünchen (inoffiziell)
     id: r9nPEi3bKG5LMnpK
     color: darkred
     checked: true
+
   - name: München (vanilla)
     id: cLBxgpoy3e5gSmQi
     color: tan
     checked: true
+
+  - name: Augsburg
+    id: 7K2MXBDDgYF58GKe
+    color: seagreen
+    checked: true
+
   - name: Überregional
     id: XtrzgcemejsDFf89
     color: rebeccapurple
     checked: true
+
   - name: Öffentliche Vorschläge
     id: sHp6ZNH57CAAiYNk
     color: grey
