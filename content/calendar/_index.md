@@ -17,6 +17,7 @@ js:
   - url: https://cdn.jsdelivr.net/npm/linkify-jquery@3.0.4/dist/linkify-jquery.min.js
     fingerprint: sha256-uc66MYQfuzCk9FXabhgiV7PmXevUgraoxslXewknZ6U=
   - url: /js/calendar.js
+  - url: /js/title.js
 
 css:
   - url: https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css
