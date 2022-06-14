@@ -1,5 +1,9 @@
 - title: Chat
-  info: Alle Chat-Apps funktionieren gleichermaßen, sofern der Homeserver "DOMAIN" eingestellt wird.
+  show: false
+  body: |
+    Autsch bietet einen Ende-zu-Ende-verschlüsselten Matrix-Chat an. Diesem kannst du mit jedem der hier gelisteten Apps beitreten, oder auch mit einer Matrix-kompatiblen Chat-App deiner Wahl.
+    <br><br>
+    Konfiguriere hierzu einfach in der App den Homeserver <b>autsch.org</b>. Du wirst dann zu unserem sicheren Keycloak-Server zur Anmeldung weitergeleitet. Benutzername und E-Mail kannst du jederzeit ändern.
   links:
     - title: Element (Web)
       url: https://element.DOMAIN
@@ -14,6 +18,7 @@
       icon: icon_fluffychat.svg
 
 - title: Apps
+  show: true
   links:
     - title: HedgeDoc
       url: https://doc.DOMAIN

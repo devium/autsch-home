@@ -1,54 +1,93 @@
 {{ define "main" }}
 
-<div class="container text-center my-3">
-  <h2 class="text-white d-inline-block">
-    Jitsi-Raumübersicht
-    <span id="numRooms">(0)</span>
-    <span id="notification-request" class="cursor-pointer h4 bi bi-bell-fill" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Aktiviere Raumbenachrichtigungen"/>
-  </h2>
-  <div id="rooms" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 justify-content-center text-start">
-    <div class="col">
-      <div class="text-dark d-block card">
-        <div class="card-header text-center">
-          <h5 class="card-title">Neuer Raum</h5>
-        </div>
-        <div class="card-body">
-          <div class="input-group my-4" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Räume, die mit _ beginnen, werden nicht gelistet.">
-            <input id="roomname" class="form-control" type="text" placeholder="Name">
-            <button id="openroom" type="button" class="btn btn-outline-dark">
-              Eröffnen
-            </button>
+<div class="container accordion">
+  <div class="accordion-item my-3 rounded">
+    <h2 class="accordion-header">
+      <button class="accordion-button bg-transparent text-white" type="button" data-bs-toggle="collapse" data-bs-target="#about">
+        <h5 class="w-100 text-center text-white">
+          Wo bin ich hier?
+        </h5>
+      </button>
+    </h2>
+    <div id="about" class="accordion-collapse collapse">
+      <div class="accordion-body text-center text-white">
+        {{ .Site.Title }} ist eine offene Plattform zur Information und Organisation von BDSM-Veranstaltungen.
+        <br><br>
+        Hier kannst du im Kalender nach Events in deiner Gegend suchen, an Online-Konferenzen teilnehmen, dich im Chat mit anderen Mitgliedern der Community austauschen, oder auch eigene Events organisieren und darüber informieren. Dafür bieten wir Tools wie Cloud-Speicher, Event-Ticketsystem und Online-Kollaborationssoftware an.
+        <br><br>
+        Diese Seite befindet sich noch in der Entwicklungsphase.
+        <br><br>
+        <a href="https://github.com/devium/kink" class="text-white"><span class="bi bi-github h6 text-white px-1"></span>Quellcode (Cluster)</a>
+        <a href="https://github.com/devium/autsch-home" class="text-white"><span class="bi bi-github h6 text-white px-1"></span>Quellcode (Homepage)</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion-item my-3 rounded">
+    <h2 class="accordion-header">
+      <button class="accordion-button bg-transparent text-white" type="button" data-bs-toggle="collapse" data-bs-target="#accordionRooms">
+        <h5 class="w-100 text-center text-white">
+          Jitsi-Raumübersicht
+          <span id="numRooms">(0)</span>
+          <span id="notification-request" class="cursor-pointer bi bi-bell-fill" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Aktiviere Raumbenachrichtigungen"/>
+        </h5>
+      </button>
+    </h2>
+    <div id="accordionRooms" class="accordion-collapse collapse">
+      <div id="rooms" class="accordion-body row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 justify-content-center">
+        <div class="col">
+          <div class="text-dark d-block card">
+            <div class="card-header text-center">
+              <h5 class="card-title">Neuer Raum</h5>
+            </div>
+            <div class="card-body">
+              <div class="input-group my-4" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Räume, die mit _ beginnen, werden nicht gelistet.">
+                <input id="roomname" class="form-control" type="text" placeholder="Name">
+                <button id="openroom" type="button" class="btn btn-outline-dark">
+                  Eröffnen
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 
-{{ range .Site.Data.links }}
-<div class="container apps my-3">
-  <h2 class="text-white text-center">
-    {{ .title }}
-    {{ if .info }}
-    <span class="cursor-pointer h4 bi bi-question-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{ replace .info "DOMAIN" $.Site.Params.baseDomain }}"/>
-    {{ end }}
-  </h2>
-  <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 g-3 justify-content-center">
-    {{ range .links }}
-    <div class="col">
-      <a href="{{ replace .url "DOMAIN" $.Site.Params.baseDomain }}" {{- if not .sameTab }} target="_blank" {{ end -}} class="text-decoration-none text-dark text-center d-block card card-hover h-100">
-        <div class="card-body">
-          {{ $img := resources.Get (path.Join "/img/" .icon) }}
-          <img src="{{ $img.RelPermalink }}" class="card-icon mx-auto mb-2 rounded" width="48px">
-          <h6 class="card-title">
-            {{ .title | safeHTML }}
-          </h6>
+  {{ range .Site.Data.links }}
+  <div class="accordion-item apps my-3 rounded">
+    <h2 class="accordion-header">
+      <button class="accordion-button bg-transparent" type="button" data-bs-toggle="collapse" data-bs-target="#{{ .title }}">
+        <h5 class="w-100 text-center text-white">
+          {{ .title }}
+          {{ if .info }}
+          <span class="cursor-pointer bi bi-question-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{ replace .info "DOMAIN" $.Site.Params.baseDomain }}"/>
+          {{ end }}
+        </h5>
+      </button>
+    </h2>
+    <div id="{{ .title }}" class="accordion-collapse collapse {{ if .show -}} show {{- end }}">
+      <div class="accordion-body text-center text-white">
+        {{ .body | safeHTML }}
+        <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 g-3 p-3 justify-content-center p-0">
+          {{ range .links }}
+          <div class="col">
+            <a href="{{ replace .url "DOMAIN" $.Site.Params.baseDomain }}" {{- if not .sameTab }} target="_blank" {{ end -}} class="text-decoration-none text-dark text-center d-block card card-hover h-100">
+              <div class="card-body">
+                {{ $img := resources.Get (path.Join "/img/" .icon) }}
+                <img src="{{ $img.RelPermalink }}" class="card-icon mx-auto mb-2 rounded" width="48px">
+                <h6 class="card-title">
+                  {{ .title | safeHTML }}
+                </h6>
+              </div>
+            </a>
+          </div>
+          {{ end }}
         </div>
-      </a>
+      </div>
     </div>
-    {{ end }}
   </div>
+  {{ end }}
 </div>
-{{ end }}
 
 {{ end }}
