@@ -1,16 +1,33 @@
 {{ define "main" }}
 
-<div class="container accordion">
+<div class="modal" id="eventModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content bg-dark">
+      <div class="modal-header">
+        <h5 id="modalTitle" class="modal-title">Event Title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div id="modalBody" class="modal-body text-start">
+      </div>
+      <div id="modalFooter" class="modal-footer">
+        <span id="modalFooterBadge" class="badge">&nbsp;</span>
+        <span id="modalFooterText"></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container accordion px-1">
   <div class="accordion-item my-3 rounded">
     <h2 class="accordion-header">
-      <button class="accordion-button bg-transparent text-white" type="button" data-bs-toggle="collapse" data-bs-target="#about">
+      <button class="accordion-button bg-transparent" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-about">
         <h5 class="w-100 text-center text-white">
           Wo bin ich hier?
         </h5>
       </button>
     </h2>
-    <div id="about" class="accordion-collapse collapse">
-      <div class="accordion-body text-center text-white">
+    <div id="accordion-about" class="accordion-collapse collapse show">
+      <div class="accordion-body text-center">
         {{ .Site.Title }} ist eine offene Plattform zur Information und Organisation von BDSM-Veranstaltungen.
         <br><br>
         Hier kannst du im Kalender nach Events in deiner Gegend suchen, an Online-Konferenzen teilnehmen, dich im Chat mit anderen Mitgliedern der Community austauschen, oder auch eigene Events organisieren und darüber informieren. Dafür bieten wir Tools wie Cloud-Speicher, Event-Ticketsystem und Online-Kollaborationssoftware an.
@@ -25,7 +42,74 @@
 
   <div class="accordion-item my-3 rounded">
     <h2 class="accordion-header">
-      <button class="accordion-button bg-transparent text-white" type="button" data-bs-toggle="collapse" data-bs-target="#accordionRooms">
+      <button class="accordion-button bg-transparent collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-calendar">
+        <h5 class="w-100 text-center text-white">
+          Kalender
+        </h5>
+      </button>
+    </h2>
+    <div id="accordion-calendar" class="accordion-collapse collapse">
+      <div class="accordion-body px-1 px-md-4">
+        <div id="calendars-dropdown" class="dropdown text-end">
+          <a href="https://next.{{ $.Site.Params.baseDomain }}/apps/calendar" target="_blank" class="btn btn-dark mt-1">
+            Eventvorschlag einreichen<span class="px-2 bi bi-box-arrow-up-right"></span>
+          </a>
+
+          <button class="btn btn-dark dropdown-toggle mt-1 ms-2" type="button" data-bs-toggle="dropdown">
+            <span class="bi bi-list"></span>
+          </button>
+
+          <ul class="dropdown-menu dropdown-menu-form bg-dark">
+            <table class="table align-middle text-white">
+              <thead>
+                <tr>
+                  <th>
+                    <input class="form-check-input" type="checkbox" value="" id="checkbox-all">
+                    <label class="form-check-label" for="checkbox-all">
+                      Alle / Keine
+                    </label>
+                  </th>
+                  <th>In Nextcloud öffnen</th>
+                  <th>iCal-Link kopieren</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {{ range .Site.Data.calendars.items }}
+                <tr>
+                  <td>
+                    <input class="form-check-input calendar-checkbox" type="checkbox" value="" id="{{ .id }}" {{ if .checked -}} checked {{- end }}>
+                    <span id="color-{{ .id }}" class="badge" style="background-color: {{ .color }}">&nbsp;</span>
+                    <label class="form-check-label user-select-none" for="{{ .id }}">
+                      {{ .name }}
+                    </label>
+                  </td>
+
+                  <td class="text-center">
+                    <a href="https://next.{{ $.Site.Params.baseDomain }}/apps/calendar/p/{{ .id }}" target="_blank" class="btn btn-xs"><span class="bi bi-box-arrow-up-right text-white"></span></a>
+                  </td>
+
+                  <td class="text-center text-white">
+                    <button id="copy-ical-{{ .id }}" class="btn btn-xs copy-ical" role="button">
+                      <span id="copy-ical-icon-{{ .id }}" class="bi bi-clipboard-plus text-white"></span>
+                    </button>
+                  </td>
+                </tr>
+                {{ end }}
+              </tbody>
+            </table>
+          </ul>
+        </div>
+
+        <div id='fullcalendar' class="my-2">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion-item my-3 rounded">
+    <h2 class="accordion-header">
+      <button class="accordion-button bg-transparent collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#accordionRooms">
         <h5 class="w-100 text-center text-white">
           Jitsi-Raumübersicht
           <span id="numRooms">(0)</span>
@@ -57,7 +141,7 @@
   {{ range .Site.Data.links }}
   <div class="accordion-item apps my-3 rounded">
     <h2 class="accordion-header">
-      <button class="accordion-button bg-transparent" type="button" data-bs-toggle="collapse" data-bs-target="#{{ .title }}">
+      <button class="accordion-button bg-transparent {{ if not .show -}} collapsed {{- end }}" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-{{ .id }}">
         <h5 class="w-100 text-center text-white">
           {{ .title }}
           {{ if .info }}
@@ -66,8 +150,8 @@
         </h5>
       </button>
     </h2>
-    <div id="{{ .title }}" class="accordion-collapse collapse {{ if .show -}} show {{- end }}">
-      <div class="accordion-body text-center text-white">
+    <div id="accordion-{{ .id }}" class="accordion-collapse collapse {{ if .show -}} show {{- end }}">
+      <div class="accordion-body text-center">
         {{ .body | safeHTML }}
         <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 g-3 p-3 justify-content-center p-0">
           {{ range .links }}

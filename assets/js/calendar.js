@@ -1,8 +1,7 @@
 var fullCalendar = null;
-const calendars = {{ .Site.Data.calendars.items | jsonify }};
 
 function createCalendar() {
-  const calendarEl = document.getElementById('calendar');
+  const calendarEl = document.getElementById('fullcalendar');
 
   fullCalendar = new FullCalendar.Calendar(calendarEl, {
     themeSystem: 'bootstrap5',
@@ -15,6 +14,7 @@ function createCalendar() {
     eventClick: function(eventClickInfo) {
       $('#modalTitle').text(eventClickInfo.event._def.title);
 
+      const calendars = {{ .Site.Data.calendars.items | jsonify }};
       const calendar = calendars.find(function(cal) { return cal.id === eventClickInfo.event.source.id });
 
       const body = $('#modalBody');
@@ -123,5 +123,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
   $('#calendars-dropdown').click(function(e) {
     e.stopPropagation();
+  });
+
+  $('[data-bs-target="#accordion-calendar"]').click(function(e) {
+    fullCalendar.render();
   });
 });

@@ -1,5 +1,6 @@
 - title: Chat
-  show: false
+  show: true
+  id: chat
   body: |
     Autsch bietet einen Ende-zu-Ende-verschlüsselten Matrix-Chat an. Diesem kannst du mit jedem der hier gelisteten Apps beitreten, oder auch mit einer Matrix-kompatiblen Chat-App deiner Wahl.
     <br><br>
@@ -18,15 +19,12 @@
       icon: icon_fluffychat.svg
 
 - title: Apps
-  show: true
+  show: false
+  id: apps
   links:
     - title: HedgeDoc
       url: https://doc.DOMAIN
       icon: icon_hedgedoc.svg
-    - title: Kalender
-      url: https://www.DOMAIN/calendar
-      icon: icon_calendar.svg
-      sameTab: true
     - title: Account
       url: https://auth.DOMAIN/realms/autsch/account
       icon: icon_keycloak.svg
