@@ -89,6 +89,10 @@ body {
   background: rgba(255, 255, 255, 0.1) !important;
 }
 
+.fc-list-event {
+  --fc-list-event-hover-bg-color: rgba(0, 0, 0, 0.5);
+}
+
 .fc-list-day-cushion {
   background: transparent;
 }
@@ -100,11 +104,6 @@ body {
   padding-left: 0.5rem;
   font-size: 0.875rem;
   border-radius: 0.2rem
-}
-
-#fullcalendar .btn-primary {
-  background-color: #212529;
-  border-color: #212529;
 }
 
 #modalBody p {

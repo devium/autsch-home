@@ -56,7 +56,10 @@ function createCalendar() {
         .attr('data-bs-target', '#eventModal');
     },
     displayEventTime: false,
-    eventDisplay: 'block'
+    eventDisplay: 'block',
+    viewDidMount: function(arg) {
+      $('#fullcalendar .btn-primary').addClass('btn-dark').removeClass('btn-primary');
+    }
   });
 
   fullCalendar.render();
