@@ -7,3 +7,15 @@ document.addEventListener('DOMContentLoaded', function() {
     window.scrollTo(0, 0);
   }
 });
+
+$('.accordion-button').click(function(e) {
+  console.log(e);
+  const button = $(e.delegateTarget);
+  const collapse = button.parents('.accordion-item').children('.accordion-collapse')
+  console.log(button.attr('class'));
+  if (button.hasClass('collapsed')) {
+    location.hash = '';
+  } else {
+    location.hash = '#' + collapse.attr('id').replace('accordion-', '');
+  }
+});

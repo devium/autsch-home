@@ -17,7 +17,7 @@
   </div>
 </div>
 
-<div class="container accordion px-1">
+<div id="accordion" class="container accordion px-1">
   <div class="accordion-item my-3 rounded">
     <h2 class="accordion-header">
       <button class="accordion-button bg-transparent" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-about">
@@ -26,7 +26,7 @@
         </h5>
       </button>
     </h2>
-    <div id="accordion-about" class="accordion-collapse collapse show">
+    <div id="accordion-about" class="accordion-collapse collapse show" data-bs-parent="#accordion">
       <div class="accordion-body text-center">
         {{ .Site.Title }} ist eine offene Plattform zur Information und Organisation von BDSM-Veranstaltungen.
         <br><br>
@@ -48,7 +48,7 @@
         </h5>
       </button>
     </h2>
-    <div id="accordion-calendar" class="accordion-collapse collapse">
+    <div id="accordion-calendar" class="accordion-collapse collapse" data-bs-parent="#accordion">
       <div class="accordion-body px-1 px-md-4">
         <div id="calendars-dropdown" class="dropdown text-end">
           <a href="https://next.{{ $.Site.Params.baseDomain }}/apps/calendar" target="_blank" class="btn btn-dark mt-1">
@@ -117,7 +117,7 @@
         </h5>
       </button>
     </h2>
-    <div id="accordion-jitsi" class="accordion-collapse collapse">
+    <div id="accordion-jitsi" class="accordion-collapse collapse" data-bs-parent="#accordion">
       <div id="rooms" class="accordion-body row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 justify-content-center">
         <div class="col">
           <div class="text-dark d-block card">
@@ -150,7 +150,7 @@
         </h5>
       </button>
     </h2>
-    <div id="accordion-{{ .id }}" class="accordion-collapse collapse {{ if .show -}} show {{- end }}">
+    <div id="accordion-{{ .id }}" class="accordion-collapse collapse {{ if .show -}} show {{- end }}" data-bs-parent="#accordion">
       <div class="accordion-body text-center">
         {{ .body | safeHTML }}
         <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 g-3 p-3 justify-content-center p-0">

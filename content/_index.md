@@ -30,5 +30,4 @@ css:
   - url: https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.css
     fingerprint: sha256-5veQuRbWaECuYxwap/IOE/DAwNxgm4ikX7nrgsqYp88=
   - url: /css/main.css
-  - url: /css/main.css
 ---
