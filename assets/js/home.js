@@ -9,10 +9,8 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 $('.accordion-button').click(function(e) {
-  console.log(e);
   const button = $(e.delegateTarget);
   const collapse = button.parents('.accordion-item').children('.accordion-collapse')
-  console.log(button.attr('class'));
   if (button.hasClass('collapsed')) {
     location.hash = '';
   } else {
