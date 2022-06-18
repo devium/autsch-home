@@ -1,5 +1,5 @@
 - title: Chat
-  show: true
+  show: false
   id: chat
   body: |
     Autsch bietet einen Ende-zu-Ende-verschlüsselten Matrix-Chat an. Diesem kannst du mit jedem der hier gelisteten Apps beitreten, oder auch mit einer Matrix-kompatiblen Chat-App deiner Wahl.
@@ -25,15 +25,19 @@
     - title: HedgeDoc
       url: https://doc.DOMAIN
       icon: icon_hedgedoc.svg
+
     - title: Account
       url: https://auth.DOMAIN/realms/autsch/account
       icon: icon_keycloak.svg
+
     - title: Nextcloud
       url: https://next.DOMAIN
       icon: icon_nextcloud.svg
+
     - title: Work Adventure
       url: https://play.DOMAIN
       icon: icon_workadventure.svg
+
     - title: Grafana
       url: https://grafana.DOMAIN
       icon: icon_grafana.svg
