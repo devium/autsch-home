@@ -135,27 +135,29 @@ function notify(room_name) {
   }
 }
 
-$('#roomname').keyup(function(event) {
-  if (event.keyCode === 13) {
-    $('#openroom').click();
-  }
-});
+document.addEventListener('DOMContentLoaded', function() {
+  $('#roomname').keyup(function(event) {
+    if (event.keyCode === 13) {
+      $('#openroom').click();
+    }
+  });
 
-$('#notification-request').click(function(event) {
-  requestNotificationPermission();
-});
+  $('#notification-request').click(function(event) {
+    requestNotificationPermission();
+  });
 
-$('#openroom').click(function(event) {
-  window.open('https://login.hang.{{ $.Site.Params.baseDomain }}/' + $('#roomname').val(), '_blank')
-});
+  $('#openroom').click(function(event) {
+    window.open('https://login.hang.{{ $.Site.Params.baseDomain }}/' + $('#roomname').val().replace(/\s/g, '_'), '_blank')
+  });
 
-$('[data-bs-toggle="tooltip"]').get().map(function (tooltipTriggerEl) {
-  return new bootstrap.Tooltip(tooltipTriggerEl)
-});
+  $('[data-bs-toggle="tooltip"]').get().map(function (tooltipTriggerEl) {
+    return new bootstrap.Tooltip(tooltipTriggerEl)
+  });
 
-$(function() {
-  refresh(false);
-  setInterval(function() {
-    refresh(true);
-  }, 15000);
+  $(function() {
+    refresh(false);
+    setInterval(function() {
+      refresh(true);
+    }, 15000);
+  });
 });

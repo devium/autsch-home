@@ -59,6 +59,11 @@ body {
   overflow: auto;
 }
 
+#map {
+  max-width: 600px;
+  background-color: whitesmoke;
+}
+
 .fc-event {
   cursor: pointer;
 }
@@ -108,6 +113,14 @@ body {
 #modalBody p {
   white-space: pre-line;
   overflow-wrap: break-word;
+}
+
+.modal-dialog {
+  max-width: 640px;
+}
+
+.map-pin {
+  font-size: 2rem;
 }
 
 .btn-xs {

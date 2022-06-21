@@ -1,11 +1,11 @@
 {{ define "main" }}
 
-<div class="modal" id="eventModal" tabindex="-1">
+<div class="modal" id="modal" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content bg-dark">
       <div class="modal-header">
         <h5 id="modalTitle" class="modal-title">Event Title</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        <button id="modalClose" type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
       <div id="modalBody" class="modal-body text-start">
       </div>
@@ -49,38 +49,36 @@
       </button>
     </h2>
     <div id="accordion-calendar" class="accordion-collapse collapse" data-bs-parent="#accordion">
-      <div class="accordion-body px-1 px-md-4">
-        <div id="calendars-dropdown" class="dropdown text-end">
+      <div class="accordion-body px-1 px-md-4 text-end"> 
+
+        <div id="map-dropdown" class="dropdown dropdown-menu-end text-end">
           <a href="https://next.{{ $.Site.Params.baseDomain }}/apps/calendar" target="_blank" class="btn btn-dark mt-1">
             Eventvorschlag einreichen<span class="px-2 bi bi-box-arrow-up-right"></span>
           </a>
 
-          <button class="btn btn-dark dropdown-toggle mt-1 ms-2" type="button" data-bs-toggle="dropdown">
-            <span class="bi bi-list"></span>
+          <button id="map-toggle" class="btn btn-dark dropdown-toggle mt-1 ms-2" type="button" data-bs-toggle="dropdown">
+            <span class="bi bi-map-fill"></span> Karte
           </button>
 
-          <ul class="dropdown-menu dropdown-menu-form bg-dark">
+          <ul id="map-menu" class="dropdown-menu dropdown-menu-form bg-dark p-1">
+
             <table class="table align-middle text-white">
               <thead>
                 <tr>
                   <th>
-                    <input class="form-check-input" type="checkbox" value="" id="checkbox-all">
-                    <label class="form-check-label" for="checkbox-all">
-                      Alle / Keine
-                    </label>
                   </th>
-                  <th>In Nextcloud öffnen</th>
-                  <th>iCal-Link kopieren</th>
+                  <th class="text-center">In Nextcloud öffnen</th>
+                  <th class="text-center">iCal-Link kopieren</th>
                 </tr>
               </thead>
 
               <tbody>
-                {{ range .Site.Data.calendars.items }}
+                {{ range (index .Site.Data.locations 0).calendars }}
                 <tr>
                   <td>
-                    <input class="form-check-input calendar-checkbox" type="checkbox" value="" id="{{ .id }}" {{ if .checked -}} checked {{- end }}>
+                    <input class="form-check-input calendar-checkbox" type="checkbox" value="" id="checkbox-{{ .id }}" calendar="{{ .id }}" {{ if .checked -}} checked {{- end }}>
                     <span id="color-{{ .id }}" class="badge" style="background-color: {{ .color }}">&nbsp;</span>
-                    <label class="form-check-label user-select-none" for="{{ .id }}">
+                    <label class="form-check-label user-select-none" for="checkbox-{{ .id }}">
                       {{ .name }}
                     </label>
                   </td>
@@ -90,7 +88,7 @@
                   </td>
 
                   <td class="text-center text-white">
-                    <button id="copy-ical-{{ .id }}" class="btn btn-xs copy-ical" role="button">
+                    <button id="copy-ical-{{ .id }}" class="btn btn-xs copy-ical" role="button" calendar="{{ .id }}">
                       <span id="copy-ical-icon-{{ .id }}" class="bi bi-clipboard-plus text-white"></span>
                     </button>
                   </td>
@@ -98,6 +96,19 @@
                 {{ end }}
               </tbody>
             </table>
+
+            <h5 class="text-white text-center">Regionale Kalender:</h5>
+            <div class="container p-0 position-relative">
+              {{ $img := resources.Get "/img/d-a-ch-map.svg" }}
+              <img id="map" src="{{ $img.RelPermalink }}" class="rounded" width="100%">
+              {{ range .Site.Data.locations }}
+              {{ if .loc }}
+              <a id="location-{{ .id }}" location="{{ .id }}" class="map-pin position-absolute m-0" type="button" data-bs-toggle="modal" data-bs-target="#modal");>
+                <span class="bi bi-geo-alt-fill" data-bs-toggle="tooltip" data-bs-placement="left" title="{{ .name }}"></span>
+              </a>
+              {{ end }}
+              {{ end }}
+            </div>
           </ul>
         </div>
 
