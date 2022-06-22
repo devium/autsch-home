@@ -38,6 +38,15 @@
     color: seagreen
     checked: true
 
+- id: mittelfranken
+  loc: 49.455556, 11.078611
+  name: Mittelfranken
+  calendars:
+  - name: Mittelfranken
+    id: DHLHctz3XWRCHoxt
+    color: peru
+    checked: true
+
 # Calibration locations
 # - id: passau
 #   loc: 48.574444, 13.464722
