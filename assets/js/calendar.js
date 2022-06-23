@@ -106,8 +106,7 @@ function renderEventDetails(eventClickInfo) {
     body.append($('<p>').text(props.location)).linkify({ target: '_blank' });
   }
 
-  const calendars = {{ .Site.Data.calendars.items | jsonify }};
-  const calendar = calendars.find(function(cal) { return cal.id === eventClickInfo.event.source.id });
+  const calendar = $.map(locations, location => location.calendars).find(cal => cal.id == eventClickInfo.event.source.id);
   $('#modalFooter').removeClass('d-none');
   $('#modalFooterBadge').css('background-color', calendar.color);
   $('#modalFooterText').text(calendar.name);
