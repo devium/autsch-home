@@ -41,3 +41,7 @@
     - title: Grafana
       url: https://grafana.DOMAIN
       icon: icon_grafana.svg
+
+    - title: Stammtisch-Buddy
+      url: https://buddy.DOMAIN
+      icon: icon_buddy.ico
