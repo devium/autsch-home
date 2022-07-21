@@ -275,7 +275,8 @@ function parseICal() {
             start: occurrence.startDate.toJSDate(),
             end: occurrence.endDate.toJSDate(),
             description: occurrence.item.description,
-            classNames: classNames
+            classNames: classNames,
+            location: occurrence.item.location
           });
         }
 
@@ -296,7 +297,8 @@ function parseICal() {
           start: event.startDate.toJSDate(),
           end: event.endDate.toJSDate(),
           description: event.description,
-          classNames: classNames
+          classNames: classNames,
+          location: event.location
         }
       } else {
         return [];
