@@ -10,8 +10,6 @@ js:
     fingerprint: sha256-XCdgoNaBjzkUaEJiauEq+85q/xi/2D4NcB3ZHwAapoM=
   - url: https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/locales-all.min.js
     fingerprint: sha256-GcByKJnun2NoPMzoBsuCb4O2MKiqJZLlHTw3PJeqSkI=
-  - url: https://cdn.jsdelivr.net/npm/@fullcalendar/icalendar@5.11.0/main.global.min.js
-    fingerprint: sha256-ntXRERg+VVCcjXguw81eZystarWC9Tqx3mlgtLNgYVk=
   - url: https://cdn.jsdelivr.net/npm/linkifyjs@3.0.5/dist/linkify.min.js
     fingerprint: sha256-v6qZQI3j3e7EzQQYDzLa3ZjC70fgF4+DS8A1FMRrc1M=
   - url: https://cdn.jsdelivr.net/npm/linkify-jquery@3.0.4/dist/linkify-jquery.min.js

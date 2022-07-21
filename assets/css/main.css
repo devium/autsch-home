@@ -72,8 +72,16 @@ body {
   font-size: 0.75rem;
 }
 
+.fc-daygrid-event.tentative {
+  opacity: 0.5;
+}
+
+.fc-daygrid-event.cancelled .fc-event-title {
+  text-decoration: line-through !important;
+}
+
 .fc-day-today {
-  background-color: rgba(255, 255, 255, 0.3) !important;
+  background-color: rgba(255, 255, 255, 0.5) !important;
 }
 
 .fc-daygrid-day-events {

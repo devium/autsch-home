@@ -1,4 +1,6 @@
 var fullCalendar = null;
+var locations = {{ .Site.Data.locations | jsonify }};
+var calendars = {{ .Site.Data.calendars | jsonify }};
 
 function createCalendar() {
   const calendarEl = document.getElementById('fullcalendar');
@@ -8,19 +10,19 @@ function createCalendar() {
     locale: 'de',
     initialView: 'dayGridMonth',
     contentHeight: 'auto',
-    footerToolbar: {
-      center: 'dayGridMonth,listMonth'
-    },
     eventClick: renderEventDetails,
-    eventDidMount: function(arg) {
-      $(arg.el)
+    eventDidMount: function(event) {
+      $(event.el)
         .attr('data-bs-toggle', 'modal')
         .attr('data-bs-target', '#modal');
     },
     displayEventTime: false,
     eventDisplay: 'block',
-    viewDidMount: function(arg) {
+    viewDidMount: function(view) {
       $('#fullcalendar .btn-primary').addClass('btn-dark').removeClass('btn-primary');
+    },
+    datesSet: function() {
+      refreshCalendars();
     }
   });
 
@@ -28,34 +30,31 @@ function createCalendar() {
   return fullCalendar;
 }
 
+function createICalURL(id) {
+  return 'https://next.{{ $.Site.Params.baseDomain }}/remote.php/dav/public-calendars/' + id + '?export';
+}
+
 function loadLocalStorage() {
   const calendarsStored = JSON.parse(localStorage.getItem('calendars') || '{}');
-  $.each(locations, function(index, location) {
-    $.each(location.calendars, function(index, calendar) {
-      if (calendar.id in calendarsStored) {
-        calendar.checked = calendarsStored[calendar.id];
+  $.each(calendars, function(index, calendar) {
+    if (calendar.id in calendarsStored) {
+      calendar.checked = calendarsStored[calendar.id];
 
-        if (location.id === 'global') {
-          $('#checkbox-' + calendar.id).prop('checked', calendarsStored[calendar.id]);
-        }
+      if (calendar.location === 'global') {
+        $('#checkbox-' + calendar.id).prop('checked', calendar.checked);
       }
-    });
+    }
   });
 }
 
 function refreshCalendars() {
-  if (fullCalendar === null) {
-    fullCalendar = createCalendar();
-  }
+  parseICal();
 
-  const calendars = $.map(locations, location => location.calendars);
-  const activeCalendars = calendars.filter(calendar => calendar.checked);
-  const calendarOptions = activeCalendars.map(function(calendar) {
+  const calendarOptions = calendars.filter(calendar => calendar.checked).map(function(calendar) {
     return {
       id: calendar.id,
-      url: 'https://next.{{ $.Site.Params.baseDomain }}/remote.php/dav/public-calendars/' + calendar.id + '?export',
-      format: 'ics',
       color: calendar.color,
+      events: calendar.events
     };
   });
   fullCalendar.setOption('eventSources', calendarOptions);
@@ -65,7 +64,7 @@ function refreshCalendars() {
 }
 
 function copyICal(id, iconEl) {
-  navigator.clipboard.writeText('webcal://next.{{ $.Site.Params.baseDomain }}/remote.php/dav/public-calendars/' + id + '/?export');
+  navigator.clipboard.writeText(createICalURL(id));
 
   iconEl.removeClass("bi-clipboard-plus").addClass("bi-clipboard-check");
   setTimeout(function() {
@@ -79,9 +78,15 @@ function renderEventDetails(eventClickInfo) {
   const body = $('#modalBody');
   body.empty();
 
-  const props = eventClickInfo.event._def.extendedProps;
+  const props = eventClickInfo.event.extendedProps;
   const allDay = eventClickInfo.event.allDay;
 
+  if ($(eventClickInfo.el).hasClass('cancelled')) {
+    body.append($('<h5>', { class: 'bi bi-exclamation-triangle text-danger' } ).text(' Abgesagt!'));
+  }
+  if ($(eventClickInfo.el).hasClass('tentative')) {
+    body.append($('<h5>', { class: 'bi bi-exclamation-triangle text-warning' } ).text(' Vorläufiger Termin!'));
+  }
   if (eventClickInfo.event.start !== null) {
     body.append($('<h6>').text("Beginn:"));
     const weekday = eventClickInfo.event.start.toLocaleString([], { weekday: 'short' });
@@ -106,7 +111,7 @@ function renderEventDetails(eventClickInfo) {
     body.append($('<p>').text(props.location)).linkify({ target: '_blank' });
   }
 
-  const calendar = $.map(locations, location => location.calendars).find(cal => cal.id == eventClickInfo.event.source.id);
+  const calendar = calendars.find(cal => cal.id == eventClickInfo.event.source.id);
   $('#modalFooter').removeClass('d-none');
   $('#modalFooterBadge').css('background-color', calendar.color);
   $('#modalFooterText').text(calendar.name);
@@ -137,9 +142,11 @@ function renderPins(e) {
     });
 
     el.removeClass('text-success text-primary text-muted');
-    if (location.calendars.length > 0 && location.calendars.every(calendar => calendar.checked)) {
+
+    const localCalendars = calendars.filter(calendar => calendar.location === location.id);
+    if (localCalendars.length > 0 && localCalendars.every(calendar => calendar.checked)) {
       el.addClass('text-success');
-    } else if (location.calendars.some(calendar => calendar.checked)) {
+    } else if (localCalendars.some(calendar => calendar.checked)) {
       el.addClass('text-primary');
     } else {
       el.addClass('text-muted');
@@ -151,6 +158,7 @@ function renderCalendarTable(thisObj) {
   bootstrap.Tooltip.getInstance(thisObj.children('span')[0]).hide();
 
   const location = locations.find(loc => loc['id'] === thisObj.attr('location'));
+  const localCalendars = calendars.filter(calendar => calendar.location === location.id);
 
   $('#modalTitle').text(location.name);
 
@@ -169,7 +177,7 @@ function renderCalendarTable(thisObj) {
     )
   ).append(
     $('<tbody>').append(
-      $.map(location.calendars, calendar => $('<tr>').append(
+      $.map(localCalendars, calendar => $('<tr>').append(
         $('<td>').append(
           $('<input>', {
             id: 'checkbox-' + calendar.id,
@@ -205,7 +213,7 @@ function renderCalendarTable(thisObj) {
             class: 'btn btn-xs',
             role: 'button'
           }).click(function() {
-            navigator.clipboard.writeText('webcal://next.{{ $.Site.Params.baseDomain }}/remote.php/dav/public-calendars/' + calendar.id + '/?export');
+            navigator.clipboard.writeText(createICalURL(calendar.id));
             const icon = $(this).children('span');
             icon.removeClass('bi-clipboard-plus').addClass('bi-clipboard-check');
             setTimeout(function() {
@@ -223,25 +231,109 @@ function renderCalendarTable(thisObj) {
 }
 
 function toggleCalendar(thisObj) {
-  const calendar = $.map(locations, location => location.calendars).find(calendar => calendar.id == thisObj.attr('calendar'));
+  const calendar = calendars.find(calendar => calendar.id == thisObj.attr('calendar'));
   calendar.checked = thisObj.is(':checked');
   refreshCalendars();
   renderPins();
 }
 
-var initialized = false;
-var locations = [];
+async function loadICal() {
+  await Promise.all(calendars.map(async function(calendar) {
+    const response = await fetch(createICalURL(calendar.id));
+    const text = await response.text();
+    calendar.ical = new ICAL.Component(ICAL.parse(text));
+  }));
+}
 
-document.addEventListener('DOMContentLoaded', function() {
+function parseICal() {
+  calendars.forEach(function(calendar) {
+    calendar.color = calendar.ical.getFirstPropertyValue('x-apple-calendar-color');
+    calendar.name = calendar.ical.getFirstPropertyValue('x-wr-calname').replace(/ \(keycloak-.*/, '');
+
+    $('#name-' + calendar.id).text(calendar.name);
+    $('#color-' + calendar.id).attr('style', 'background-color: ' + calendar.color);
+
+    if (!calendar.checked) {
+      return;
+    }
+
+    const vevents = calendar.ical.getAllSubcomponents('vevent');
+    const activeRange = fullCalendar.view.getCurrentData().dateProfile.activeRange;
+    const startDate = ICAL.Time.fromJSDate(activeRange.start);
+    const endDate = ICAL.Time.fromJSDate(activeRange.end);
+
+    const events = vevents.map(function (vevent) {
+      const event = new ICAL.Event(vevent);
+
+      if (event.isRecurring()) {
+        const expand = event.iterator(event.startDate);
+        var next;
+        var eventsExpanded = [];
+
+        while ((next = expand.next()) && next.compare(endDate) < 0) {
+          if (next.compare(startDate) < 0) {
+            continue;
+          }
+          const occurrence = event.getOccurrenceDetails(next);
+
+          classNames = [];
+          const status = occurrence.item.component.getFirstPropertyValue('status');
+          if (status === 'TENTATIVE') {
+            classNames.push('tentative');
+          } else if (status === 'CANCELLED') {
+            classNames.push('cancelled');
+          }
+
+          eventsExpanded.push({
+            id: occurrence.item.uid + '-' + occurrence.recurrenceId.toString().substring(0, 10),
+            title: occurrence.item.summary,
+            start: occurrence.startDate.toJSDate(),
+            end: occurrence.endDate.toJSDate(),
+            description: occurrence.item.description,
+            classNames: classNames
+          });
+        }
+
+        return eventsExpanded;
+
+      } else if (!event.isRecurrenceException() && event.startDate.compare(startDate) > 0 && event.startDate.compare(endDate) < 0) {
+        classNames = [];
+        const status = event.component.getFirstPropertyValue('status');
+        if (status === 'TENTATIVE') {
+          classNames.push('tentative');
+        } else if (status === 'CANCELLED') {
+          classNames.push('cancelled');
+        }
+
+        return {
+          id: event.uid,
+          title: event.summary,
+          start: event.startDate.toJSDate(),
+          end: event.endDate.toJSDate(),
+          description: event.description,
+          classNames: classNames
+        }
+      } else {
+        return [];
+      }
+    });
+
+    calendar.events = events.flat();
+  });
+}
+
+var initialized = false;
+
+document.addEventListener('DOMContentLoaded', async function() {
   if (initialized) {
     return
   }
 
   initialized = true;
 
-  locations = {{ .Site.Data.locations | jsonify }};
   loadLocalStorage();
-  refreshCalendars();
+  await loadICal();
+  fullCalendar = createCalendar();
 
   $('#calendars-dropdown').click(function(e) {
     e.stopPropagation();

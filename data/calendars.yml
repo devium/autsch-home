@@ -1,0 +1,34 @@
+# Überregional
+- id: XtrzgcemejsDFf89
+  checked: true
+  location: global
+
+# Vorschläge
+- id: sHp6ZNH57CAAiYNk
+  checked: false
+  location: global
+
+# München
+- id: a52MKPxagEiiRq8e
+  checked: true
+  location: munich
+
+# München (vanilla)
+- id: cLBxgpoy3e5gSmQi
+  checked: true
+  location: munich
+
+# JungeSMünchen
+- id: r9nPEi3bKG5LMnpK
+  checked: true
+  location: munich
+
+# Augsburg
+- id: 7K2MXBDDgYF58GKe
+  checked: true
+  location: augsburg
+
+# Mittelfranken
+- id: DHLHctz3XWRCHoxt
+  checked: true
+  location: mittelfranken

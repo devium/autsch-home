@@ -3,7 +3,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const id = '#accordion-' + location.hash.substr(1)
     $('.accordion-collapse.show').not(id).collapse('hide');
     $(id).collapse('show');
-    fullCalendar.render();
     window.scrollTo(0, 0);
   }
 });

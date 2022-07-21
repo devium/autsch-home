@@ -73,13 +73,12 @@
               </thead>
 
               <tbody>
-                {{ range (index .Site.Data.locations 0).calendars }}
+                {{ range (where .Site.Data.calendars "location" "global") }}
                 <tr>
                   <td>
                     <input class="form-check-input calendar-checkbox" type="checkbox" value="" id="checkbox-{{ .id }}" calendar="{{ .id }}" {{ if .checked -}} checked {{- end }}>
-                    <span id="color-{{ .id }}" class="badge" style="background-color: {{ .color }}">&nbsp;</span>
-                    <label class="form-check-label user-select-none" for="checkbox-{{ .id }}">
-                      {{ .name }}
+                    <span id="color-{{ .id }}" class="badge">&nbsp;</span>
+                    <label id="name-{{ .id }}" class="form-check-label user-select-none" for="checkbox-{{ .id }}">
                     </label>
                   </td>
 
