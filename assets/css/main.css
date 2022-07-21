@@ -9,6 +9,10 @@ body {
   flex-wrap: wrap;
 }
 
+a {
+  color: deepskyblue;
+}
+
 #navbar {
   z-index: 1030;
 }
@@ -122,6 +126,10 @@ body {
   border-radius: 0.2rem
 }
 
+#modalBody {
+  max-height: 400px;
+}
+
 #modalBody p {
   white-space: pre-line;
   overflow-wrap: break-word;
@@ -132,7 +140,7 @@ body {
 }
 
 .map-pin {
-  font-size: 2rem;
+  font-size: 1.5rem;
 }
 
 .btn-xs {

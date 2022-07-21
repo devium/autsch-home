@@ -7,7 +7,7 @@
         <h5 id="modalTitle" class="modal-title">Event Title</h5>
         <button id="modalClose" type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
-      <div id="modalBody" class="modal-body text-start">
+      <div id="modalBody" class="modal-body text-start overflow-auto">
       </div>
       <div id="modalFooter" class="modal-footer">
         <span id="modalFooterBadge" class="badge">&nbsp;</span>
@@ -49,69 +49,62 @@
       </button>
     </h2>
     <div id="accordion-calendar" class="accordion-collapse collapse" data-bs-parent="#accordion">
-      <div class="accordion-body px-1 px-md-4 text-end"> 
-
-        <div id="map-dropdown" class="dropdown dropdown-menu-end text-end">
-          <a href="https://next.{{ $.Site.Params.baseDomain }}/apps/calendar" target="_blank" class="btn btn-dark mt-1">
-            Eventvorschlag einreichen<span class="px-2 bi bi-box-arrow-up-right"></span>
-          </a>
-
-          <button id="map-toggle" class="btn btn-dark dropdown-toggle mt-1 ms-2" type="button" data-bs-toggle="dropdown">
-            <span class="bi bi-gear-fill"></span>
-          </button>
-
-          <ul id="map-menu" class="dropdown-menu dropdown-menu-form bg-dark p-1">
-
-            <table class="table align-middle text-white">
-              <thead>
-                <tr>
-                  <th>
-                  </th>
-                  <th class="text-center">In Nextcloud öffnen</th>
-                  <th class="text-center">iCal-Link kopieren</th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {{ range (where .Site.Data.calendars "location" "global") }}
-                <tr>
-                  <td>
-                    <input class="form-check-input calendar-checkbox" type="checkbox" value="" id="checkbox-{{ .id }}" calendar="{{ .id }}" {{ if .checked -}} checked {{- end }}>
-                    <span id="color-{{ .id }}" class="badge">&nbsp;</span>
-                    <label id="name-{{ .id }}" class="form-check-label user-select-none" for="checkbox-{{ .id }}">
-                    </label>
-                  </td>
-
-                  <td class="text-center">
-                    <a href="https://next.{{ $.Site.Params.baseDomain }}/apps/calendar/p/{{ .id }}" target="_blank" class="btn btn-xs"><span class="bi bi-box-arrow-up-right text-white"></span></a>
-                  </td>
-
-                  <td class="text-center text-white">
-                    <button id="copy-ical-{{ .id }}" class="btn btn-xs copy-ical" role="button" calendar="{{ .id }}">
-                      <span id="copy-ical-icon-{{ .id }}" class="bi bi-clipboard-plus text-white"></span>
-                    </button>
-                  </td>
-                </tr>
-                {{ end }}
-              </tbody>
-            </table>
-
-            <h5 class="text-white text-center">Regionale Kalender:</h5>
-            <div class="container p-0 position-relative">
-              {{ $img := resources.Get "/img/d-a-ch-map.svg" }}
-              <img id="map" src="{{ $img.RelPermalink }}" class="rounded" width="100%">
-              {{ range .Site.Data.locations }}
-              {{ if .loc }}
-              <a id="location-{{ .id }}" location="{{ .id }}" class="map-pin position-absolute m-0" type="button" data-bs-toggle="modal" data-bs-target="#modal");>
-                <span class="bi bi-geo-alt-fill" data-bs-toggle="tooltip" data-bs-placement="left" title="{{ .name }}"></span>
-              </a>
-              {{ end }}
-              {{ end }}
-            </div>
-          </ul>
+      <div class="accordion-body px-1 px-md-4 text-center"> 
+        <div id="calendar-spinner" class="spinner-border" role="status">
         </div>
 
-        <div id='fullcalendar' class="my-2">
+        <div id="fullcalendar" class="my-2">
+        </div>
+
+        <div class="calendar-fluff d-none text-center py-2">
+          Im Folgenden kannst du einzelne Kalender ein- und ausblenden, oder sie in deine eigene Kalender-App einbinden.
+          <br><br>
+          Zum Einbinden, klicke auf das Icon unter <b>iCal-Link kopieren</b> und folge dann der Anleitung deiner Kalender-App, beispielsweise <a href="https://support.google.com/calendar/answer/37100" target="_blank">Google Calendar</a> oder der <a href="https://support.apple.com/guide/iphone/use-multiple-calendars-iph3d1110d4" target="_blank">iPhone Kalender-App</a>.
+        </div>
+        <div class="calendar-fluff d-none">
+          <table class="table align-middle text-white">
+            <thead>
+              <tr>
+                <th class="text-start"></th>
+                <th class="text-center">iCal-Link kopieren</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {{ range (where .Site.Data.calendars "location" "global") }}
+              <tr>
+                <td class="text-start">
+                  <input class="form-check-input calendar-checkbox" type="checkbox" value="" id="checkbox-{{ .id }}" calendar="{{ .id }}" {{ if .checked -}} checked {{- end }}>
+                  <span id="color-{{ .id }}" class="badge">&nbsp;</span>
+                  <label id="name-{{ .id }}" class="form-check-label user-select-none" for="checkbox-{{ .id }}">
+                  </label>
+                </td>
+
+                <td class="text-center text-white">
+                  <button id="copy-ical-{{ .id }}" class="btn btn-xs copy-ical" role="button" calendar="{{ .id }}">
+                    <span id="copy-ical-icon-{{ .id }}" class="bi bi-clipboard-plus text-white"></span>
+                  </button>
+                </td>
+              </tr>
+              {{ end }}
+            </tbody>
+          </table>
+
+          <h5 class="text-white text-center">Regionale Kalender:</h5>
+          <div class="text-center pb-2">
+            Klicke auf die Städte, um regionale Kalender ein- oder auszublenden.
+          </div>
+          <div id="map-container" class="container p-0 position-relative text-center">
+            {{ $img := resources.Get "/img/d-a-ch-map.svg" }}
+            <img id="map" src="{{ $img.RelPermalink }}" class="rounded" width="100%">
+            {{ range .Site.Data.locations }}
+            {{ if .loc }}
+            <a id="location-{{ .id }}" location="{{ .id }}" class="map-pin position-absolute m-0" type="button" data-bs-toggle="modal" data-bs-target="#modal");>
+              <span class="bi bi-geo-alt-fill" data-bs-toggle="tooltip" data-bs-placement="left" title="{{ .name }}"></span>
+            </a>
+            {{ end }}
+            {{ end }}
+          </div>
         </div>
       </div>
     </div>
@@ -123,7 +116,6 @@
         <h5 class="w-100 text-center text-white">
           Jitsi-Raumübersicht
           <span id="numRooms">(0)</span>
-          <span id="notification-request" class="cursor-pointer bi bi-bell-fill" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Aktiviere Raumbenachrichtigungen"/>
         </h5>
       </button>
     </h2>
@@ -132,7 +124,10 @@
         <div class="col">
           <div class="text-dark d-block card">
             <div class="card-header text-center">
-              <h5 class="card-title">Neuer Raum</h5>
+              <h5 class="card-title">
+                Neuer Raum 
+                <span id="notification-request" class="cursor-pointer bi bi-bell"/>
+              </h5>
             </div>
             <div class="card-body">
               <div class="input-group my-4" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Räume, die mit _ beginnen, werden nicht gelistet.">

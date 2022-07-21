@@ -63,15 +63,6 @@ function refreshCalendars() {
   localStorage.setItem('calendars', JSON.stringify(calendarsEntry));
 }
 
-function copyICal(id, iconEl) {
-  navigator.clipboard.writeText(createICalURL(id));
-
-  iconEl.removeClass("bi-clipboard-plus").addClass("bi-clipboard-check");
-  setTimeout(function() {
-    iconEl.removeClass("bi-clipboard-check").addClass("bi-clipboard-plus");
-  }, 2000);
-}
-
 function renderEventDetails(eventClickInfo) {
   $('#modalTitle').text(eventClickInfo.event._def.title);
 
@@ -118,14 +109,12 @@ function renderEventDetails(eventClickInfo) {
 }
 
 function renderPins(e) {
-  const paddingX = parseInt($('#map-menu').css('padding-left'));
-  const paddingY = parseInt($('#map-menu').css('padding-top'));
-  const pinOffset = [16, 44];
-  const offsetX = paddingX - pinOffset[0];
-  const offsetY = paddingY - pinOffset[1];
+  const pinOffset = [$('.map-pin').width() / 2, $('.map-pin').height() * 0.9];
+  const offsetX = ($('#map-container').width() - $('#map').width()) / 2 - pinOffset[0];
+  const offsetY = - pinOffset[1];
 
   const origin = [55.10, 5.55];
-  const end = [45.65, 17.30];
+  const end = [45.75, 17.25];
   const map = $('#map');
   const scaleX = map.width() / (end[1] - origin[1]);
   const scaleY = map.height() / (end[0] - origin[0]);
@@ -154,6 +143,19 @@ function renderPins(e) {
   });
 }
 
+function copyICal(id, iconEl) {
+  navigator.clipboard.writeText(createICalURL(id));
+
+  const tooltip = new bootstrap.Tooltip(iconEl, { title: 'Kopiert!', trigger: 'manual', placement: 'left' });
+  tooltip.show();
+
+  iconEl.removeClass("bi-clipboard-plus").addClass("bi-clipboard-check-fill");
+  setTimeout(function() {
+    iconEl.removeClass("bi-clipboard-check-fill").addClass("bi-clipboard-plus");
+    tooltip.hide();
+  }, 3000);
+}
+
 function renderCalendarTable(thisObj) {
   bootstrap.Tooltip.getInstance(thisObj.children('span')[0]).hide();
 
@@ -169,8 +171,6 @@ function renderCalendarTable(thisObj) {
     $('<thead>').append(
       $('<tr>').append(
         $('<th>')
-      ).append(
-        $('<th>', { class: 'text-center' }).text('In Nextcloud öffnen')
       ).append(
         $('<th>', { class: 'text-center' }).text('iCal-Link kopieren')
       )
@@ -199,26 +199,11 @@ function renderCalendarTable(thisObj) {
         )
       ).append(
         $('<td>', { class: 'text-center' }).append(
-          $('<a>', {
-            href: 'https://next.{{ $.Site.Params.baseDomain }}/apps/calendar/p/' + calendar.id,
-            target: '_blank',
-            class: 'btn btn-xs'
-          }).append(
-            $('<span>', { class: 'bi bi-box-arrow-up-right text-white' })
-          )
-        )
-      ).append(
-        $('<td>', { class: 'text-center' }).append(
           $('<button>', {
             class: 'btn btn-xs',
             role: 'button'
           }).click(function() {
-            navigator.clipboard.writeText(createICalURL(calendar.id));
-            const icon = $(this).children('span');
-            icon.removeClass('bi-clipboard-plus').addClass('bi-clipboard-check');
-            setTimeout(function() {
-              icon.removeClass('bi-clipboard-check').addClass('bi-clipboard-plus');
-            }, 2000);
+            copyICal(calendar.id, $(this).children('span'));
           }).append(
             $('<span>', { class: 'bi bi-clipboard-plus text-white' })
           )
@@ -334,6 +319,14 @@ document.addEventListener('DOMContentLoaded', async function() {
   loadLocalStorage();
   await loadICal();
   fullCalendar = createCalendar();
+  $('.calendar-fluff').removeClass('d-none');
+  $('#calendar-spinner').addClass('d-none');
+  renderPins();
+
+  $('[data-bs-target="#accordion-calendar"]').click(function(e) {
+    fullCalendar.render();
+    renderPins();
+  });
 
   $('#calendars-dropdown').click(function(e) {
     e.stopPropagation();
@@ -344,17 +337,6 @@ document.addEventListener('DOMContentLoaded', async function() {
   });
 
   $('[data-bs-target="#accordion-calendar"]').click(function(e) {
-    fullCalendar.render();
-  });
-
-  $('#map-dropdown').click(function(e) {
-    e.stopPropagation();
-  });
-
-  $('#map-toggle').click(function(e) {
-    if ($('#map-menu').hasClass('show')) {
-      renderPins(e);
-    }
   });
 
   $('.map-pin').click(function() {
@@ -369,4 +351,8 @@ document.addEventListener('DOMContentLoaded', async function() {
     const thisObj = $(this);
     copyICal(thisObj.attr('calendar'), thisObj.children('span'));
   });
+});
+
+window.addEventListener('resize', function(event) {
+  renderPins();
 });

@@ -1,14 +1,38 @@
 {{ $jitsiUrl := printf "https://hang.%s" $.Site.Params.baseDomain }}
 
-function requestNotificationPermission() {
+async function requestNotificationPermission() {
   if (!Notification) {
     console.warn('Notifications not available.');
     return;
   }
 
   if (Notification.permission !== 'granted') {
-    Notification.requestPermission();
+    await Notification.requestPermission();
+    updateBellIcon();
   }
+}
+
+function updateBellIcon() {
+  const icon = $('#notification-request');
+  icon.removeClass('bi-bell bi-bell-fill bi-bell-slash');
+  var title;
+
+  if (Notification.permission === 'granted') {
+    icon.addClass('bi-bell-fill');
+    title = 'Raumbenachrichtigungen aktiviert.';
+  } else if (Notification.permission ==='denied') {
+    icon.addClass('bi-bell-slash');
+    title = 'Raumbenachrichtigungen blockiert.';
+  } else {
+    icon.addClass('bi-bell');
+    title = 'Raumbenachrichtigungen aktivieren.';
+  }
+
+  const oldTooltip = bootstrap.Tooltip.getInstance(icon);
+  if (oldTooltip) {
+    oldTooltip.dispose();
+  }
+  const tooltip = new bootstrap.Tooltip(icon, { title: title, placement: 'bottom' });
 }
 
 function sortRoomsByName(a, b) {
@@ -17,7 +41,7 @@ function sortRoomsByName(a, b) {
 
 var rooms = [];
 
-function refresh(notifications_enabled) {
+function refresh(notificationsEnabled) {
   $.getJSON('{{ $jitsiUrl }}/rooms', function(data) {
     data.rooms.sort(sortRoomsByName);
 
@@ -32,7 +56,7 @@ function refresh(notifications_enabled) {
 
     $('#numRooms').text("(" + data.num_rooms + ")")
 
-    if (notifications_enabled) {
+    if (notificationsEnabled) {
       var roomDiff = $(roomsNew).not(rooms);
       if (roomDiff.length > 0) {
         notify(roomDiff[0]);
@@ -121,16 +145,16 @@ function renderRoom(room) {
   );
 }
 
-function notify(room_name) {
+function notify(roomName) {
   if (Notification.permission !== 'granted') {
     return;
   }
   else {
     var notification = new Notification('Neuer Jitsi-Raum', {
-     body: 'Ein neuer Jitsi-Raum wurde geöffnet: ' + room_name,
+     body: 'Ein neuer Jitsi-Raum wurde geöffnet: ' + roomName,
     });
     notification.onclick = function() {
-      window.open('{{ $jitsiUrl }}' + room_name);
+      window.open('{{ $jitsiUrl }}' + roomName);
     };
   }
 }
@@ -160,4 +184,6 @@ document.addEventListener('DOMContentLoaded', function() {
       refresh(true);
     }, 15000);
   });
+
+  updateBellIcon();
 });
