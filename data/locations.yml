@@ -13,18 +13,18 @@
   name: Mittelfranken
 
 # Calibration locations
-- id: passau
-  loc: 48.574444, 13.464722
-  name: Passau
+# - id: passau
+#   loc: 48.574444, 13.464722
+#   name: Passau
 
-- id: berlin
-  loc: 52.518611, 13.408333
-  name: Berlin
+# - id: berlin
+#   loc: 52.518611, 13.408333
+#   name: Berlin
 
-- id: wien
-  loc: 48.208333, 16.373056
-  name: Wien
+# - id: wien
+#   loc: 48.208333, 16.373056
+#   name: Wien
 
-- id: emden
-  loc: 53.366944, 7.205556
-  name: Emden
+# - id: emden
+#   loc: 53.366944, 7.205556
+#   name: Emden
