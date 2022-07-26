@@ -1,16 +1,26 @@
 body {
   min-height: 100vh;
   color: white;
-}
-
-body {
   background-image: linear-gradient(160deg, black, grey);
   background-size: cover;
   flex-wrap: wrap;
+  cursor: var(--cursor-default) !important;
 }
 
 a {
-  color: deepskyblue;
+  color: white;
+}
+
+a:hover {
+  color: silver;
+}
+
+a, button {
+  cursor: var(--cursor-pointer) !important;
+}
+
+input {
+  cursor: var(--cursor-text) !important;
 }
 
 #navbar {
@@ -168,4 +178,12 @@ a {
   padding-bottom: 0;
   padding-left: 0.3rem;
   padding-right: 0.3rem;
+}
+
+#charlotte {
+  opacity: 0;
+}
+
+#charlotte:hover {
+  opacity: 1;
 }

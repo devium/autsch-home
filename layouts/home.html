@@ -28,14 +28,7 @@
     </h2>
     <div id="accordion-about" class="accordion-collapse collapse" data-bs-parent="#accordion">
       <div class="accordion-body text-center">
-        {{ .Site.Title }} ist eine offene Plattform zur Information und Organisation von BDSM-Veranstaltungen.
-        <br><br>
-        Hier kannst du im Kalender nach Events in deiner Gegend suchen, an Online-Konferenzen teilnehmen, dich im Chat mit anderen Mitgliedern der Community austauschen, oder auch eigene Events organisieren und darüber informieren. Dafür bieten wir Tools wie Cloud-Speicher, Event-Ticketsystem und Online-Kollaborationssoftware an.
-        <br><br>
-        Diese Seite befindet sich noch in der Entwicklungsphase.
-        <br><br>
-        <a href="https://github.com/devium/kink" class="text-white"><span class="bi bi-github h6 text-white px-1"></span>Quellcode (Cluster)</a>
-        <a href="https://github.com/devium/autsch-home" class="text-white"><span class="bi bi-github h6 text-white px-1"></span>Quellcode (Homepage)</a>
+        {{ partial "home/about.html" . }}
       </div>
     </div>
   </div>
