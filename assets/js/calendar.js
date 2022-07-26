@@ -50,6 +50,10 @@ function loadLocalStorage() {
 function refreshCalendars() {
   parseICalRange(calendars);
 
+  if (!fullCalendar.dirty) {
+    return;
+  }
+
   const calendarOptions = calendars.filter(calendar => calendar.checked).map(function(calendar) {
     return {
       id: calendar.id,
@@ -58,17 +62,7 @@ function refreshCalendars() {
     };
   });
   fullCalendar.setOption('eventSources', calendarOptions);
-
-  const calendarsEntry = Object.fromEntries(calendars.map(calendar => [ calendar.id, calendar.checked ]));
-  localStorage.setItem('calendars', JSON.stringify(calendarsEntry));
-
-  $('.num-checked').each(function () {
-    const thisObj = $(this);
-    const location = thisObj.attr('location');
-    const localCalendars = calendars.filter(calendar => calendar.location === location);
-    const localCalendarsChecked = localCalendars.filter(calendar => calendar.checked);
-    thisObj.text('(' + localCalendarsChecked.length + '/' + localCalendars.length + ')');
-  });
+  fullCalendar.dirty = false;
 }
 
 function renderEventDetails(eventClickInfo) {
@@ -100,7 +94,6 @@ function renderEventDetails(eventClickInfo) {
     const date = eventClickInfo.event.end.toLocaleString([], options);
     body.append($('<p>').text(weekday + ', ' + date));
   }
-
 
   if (props.location !== null) {
     body.append($('<h6>').text("Ort:"));
@@ -190,6 +183,9 @@ function toggleCalendar(thisObj) {
   } else {
     fullCalendar.getEventSourceById(calendar.id).remove();
   }
+
+  const calendarsEntry = Object.fromEntries(calendars.map(calendar => [ calendar.id, calendar.checked ]));
+  localStorage.setItem('calendars', JSON.stringify(calendarsEntry));
 }
 
 async function loadICal() {
@@ -216,10 +212,18 @@ function parseICalRange(newCalendars) {
       return;
     }
 
-    const vevents = calendar.ical.getAllSubcomponents('vevent');
     const activeRange = fullCalendar.view.getCurrentData().dateProfile.activeRange;
-    const startDate = ICAL.Time.fromJSDate(activeRange.start);
-    const endDate = ICAL.Time.fromJSDate(activeRange.end);
+    var startDate = ICAL.Time.fromJSDate(activeRange.start);
+    var endDate = ICAL.Time.fromJSDate(activeRange.end);
+
+    if (calendar.loadedStart && calendar.loadedEnd && startDate.compare(calendar.loadedStart) > 0 && endDate.compare(calendar.loadedEnd) < 0) {
+      return;
+    }
+    fullCalendar.dirty = true;
+    startDate.addDuration(new ICAL.Duration({ weeks: -25 }));
+    endDate.addDuration(new ICAL.Duration({ weeks: 25 }));
+
+    const vevents = calendar.ical.getAllSubcomponents('vevent');
 
     const events = vevents.map(function (vevent) {
       const event = new ICAL.Event(vevent);
@@ -280,6 +284,8 @@ function parseICalRange(newCalendars) {
     });
 
     calendar.events = events.flat();
+    calendar.loadedStart = startDate;
+    calendar.loadedEnd = endDate;
   });
 }
 
