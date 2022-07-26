@@ -78,6 +78,7 @@ a {
 
 .fc-daygrid-event {
   font-size: 0.75rem;
+  margin-top: 2px !important;
 }
 
 .fc-daygrid-event.tentative {
