@@ -48,7 +48,7 @@ function loadLocalStorage() {
 }
 
 function refreshCalendars() {
-  parseICal();
+  parseICalRange();
 
   const calendarOptions = calendars.filter(calendar => calendar.checked).map(function(calendar) {
     return {
@@ -61,6 +61,14 @@ function refreshCalendars() {
 
   const calendarsEntry = Object.fromEntries(calendars.map(calendar => [ calendar.id, calendar.checked ]));
   localStorage.setItem('calendars', JSON.stringify(calendarsEntry));
+
+  $('.num-checked').each(function () {
+    const thisObj = $(this);
+    const location = thisObj.attr('location');
+    const localCalendars = calendars.filter(calendar => calendar.location === location);
+    const localCalendarsChecked = localCalendars.filter(calendar => calendar.checked);
+    thisObj.text('(' + localCalendarsChecked.length + '/' + localCalendars.length + ')');
+  });
 }
 
 function renderEventDetails(eventClickInfo) {
@@ -93,54 +101,20 @@ function renderEventDetails(eventClickInfo) {
     body.append($('<p>').text(weekday + ', ' + date));
   }
 
-  if (props.description !== null) {
-    body.append($('<h6>').text("Beschreibung:"));
-    body.append($('<p>').text(props.description)).linkify({ target: '_blank' });
-  }
+
   if (props.location !== null) {
     body.append($('<h6>').text("Ort:"));
     body.append($('<p>').text(props.location)).linkify({ target: '_blank' });
+  }
+  if (props.description !== null) {
+    body.append($('<h6>').text("Beschreibung:"));
+    body.append($('<p>').text(props.description)).linkify({ target: '_blank' });
   }
 
   const calendar = calendars.find(cal => cal.id == eventClickInfo.event.source.id);
   $('#modalFooter').removeClass('d-none');
   $('#modalFooterBadge').css('background-color', calendar.color);
   $('#modalFooterText').text(calendar.name);
-}
-
-function renderPins(e) {
-  const pinOffset = [$('.map-pin').width() / 2, $('.map-pin').height() * 0.9];
-  const offsetX = ($('#map-container').width() - $('#map').width()) / 2 - pinOffset[0];
-  const offsetY = - pinOffset[1];
-
-  const origin = [55.10, 5.55];
-  const end = [45.75, 17.25];
-  const map = $('#map');
-  const scaleX = map.width() / (end[1] - origin[1]);
-  const scaleY = map.height() / (end[0] - origin[0]);
-
-  $('.map-pin').each(function() {
-    const el = $(this);
-    const location = locations.find(loc => loc.id === el.attr('location'));
-    const loc = location.loc.split(', ');
-    const x = (loc[1] - origin[1]) * scaleX;
-    const y = (loc[0] - origin[0]) * scaleY;
-    el.css({
-      'left': Math.max(x + offsetX, 0),
-      'top': Math.max(y + offsetY, 0)
-    });
-
-    el.removeClass('text-success text-primary text-muted');
-
-    const localCalendars = calendars.filter(calendar => calendar.location === location.id);
-    if (localCalendars.length > 0 && localCalendars.every(calendar => calendar.checked)) {
-      el.addClass('text-success');
-    } else if (localCalendars.some(calendar => calendar.checked)) {
-      el.addClass('text-primary');
-    } else {
-      el.addClass('text-muted');
-    }
-  });
 }
 
 function copyICal(id, iconEl) {
@@ -156,29 +130,20 @@ function copyICal(id, iconEl) {
   }, 3000);
 }
 
-function renderCalendarTable(thisObj) {
-  bootstrap.Tooltip.getInstance(thisObj.children('span')[0]).hide();
+function renderCalendarTable() {
+  parseICalMeta();
+  $('#regional-row').nextAll().remove();
 
-  const location = locations.find(loc => loc['id'] === thisObj.attr('location'));
-  const localCalendars = calendars.filter(calendar => calendar.location === location.id);
+  $(locations).filter(location => location.id != 'global').each(function () {
+    const localCalendars = calendars.filter(calendar => calendar.location === this.id);
 
-  $('#modalTitle').text(location.name);
-
-  const body = $('#modalBody');
-  body.empty();
-
-  body.append($('<table>', { class: 'table align-middle text-white' }).append(
-    $('<thead>').append(
+    $('#calendar-table').children('tbody').append(
       $('<tr>').append(
-        $('<th>')
-      ).append(
-        $('<th>', { class: 'text-center' }).text('iCal-Link kopieren')
+        $('<td>', { colspan: 2, class: 'border-top' }).text(this.name)
       )
-    )
-  ).append(
-    $('<tbody>').append(
+    ).append(
       $.map(localCalendars, calendar => $('<tr>').append(
-        $('<td>').append(
+        $('<td>', { class: 'text-start' }).append(
           $('<input>', {
             id: 'checkbox-' + calendar.id,
             class: 'form-check-input calendar-checkbox',
@@ -202,24 +167,19 @@ function renderCalendarTable(thisObj) {
           $('<button>', {
             class: 'btn btn-xs',
             role: 'button'
-          }).click(function() {
-            copyICal(calendar.id, $(this).children('span'));
-          }).append(
+          }).click(function() { copyICal(calendar.id, $(this).children('span')); }).append(
             $('<span>', { class: 'bi bi-clipboard-plus text-white' })
           )
         )
       ))
-    )
-  ));
-
-  $('#modalFooter').addClass('d-none');
+    );
+  });
 }
 
 function toggleCalendar(thisObj) {
   const calendar = calendars.find(calendar => calendar.id == thisObj.attr('calendar'));
   calendar.checked = thisObj.is(':checked');
   refreshCalendars();
-  renderPins();
 }
 
 async function loadICal() {
@@ -230,14 +190,18 @@ async function loadICal() {
   }));
 }
 
-function parseICal() {
+function parseICalMeta() {
   calendars.forEach(function(calendar) {
     calendar.color = calendar.ical.getFirstPropertyValue('x-apple-calendar-color');
     calendar.name = calendar.ical.getFirstPropertyValue('x-wr-calname').replace(/ \(keycloak-.*/, '');
 
     $('#name-' + calendar.id).text(calendar.name);
     $('#color-' + calendar.id).attr('style', 'background-color: ' + calendar.color);
+  });
+}
 
+function parseICalRange() {
+  calendars.forEach(function(calendar) {
     if (!calendar.checked) {
       return;
     }
@@ -320,14 +284,14 @@ document.addEventListener('DOMContentLoaded', async function() {
 
   loadLocalStorage();
   await loadICal();
+  renderCalendarTable();
+
   fullCalendar = createCalendar();
   $('.calendar-fluff').removeClass('d-none');
   $('#calendar-spinner').addClass('d-none');
-  renderPins();
 
   $('[data-bs-target="#accordion-calendar"]').click(function(e) {
     fullCalendar.render();
-    renderPins();
   });
 
   $('#calendars-dropdown').click(function(e) {
@@ -341,10 +305,6 @@ document.addEventListener('DOMContentLoaded', async function() {
   $('[data-bs-target="#accordion-calendar"]').click(function(e) {
   });
 
-  $('.map-pin').click(function() {
-    renderCalendarTable($(this));
-  });
-
   $('.calendar-checkbox').click(function() {
     toggleCalendar($(this));
   });
@@ -353,8 +313,4 @@ document.addEventListener('DOMContentLoaded', async function() {
     const thisObj = $(this);
     copyICal(thisObj.attr('calendar'), thisObj.children('span'));
   });
-});
-
-window.addEventListener('resize', function(event) {
-  renderPins();
 });

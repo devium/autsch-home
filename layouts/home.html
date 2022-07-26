@@ -20,7 +20,7 @@
 <div id="accordion" class="container accordion px-1">
   <div class="accordion-item my-3 rounded">
     <h2 class="accordion-header">
-      <button class="accordion-button bg-transparent" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-about">
+      <button class="accordion-button anchor bg-transparent" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-about">
         <h5 class="w-100 text-center text-white">
           Wo bin ich hier?
         </h5>
@@ -42,77 +42,22 @@
 
   <div class="accordion-item my-3 rounded">
     <h2 class="accordion-header">
-      <button class="accordion-button bg-transparent collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-calendar">
+      <button class="accordion-button anchor bg-transparent collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-calendar">
         <h5 class="w-100 text-center text-white">
           Kalender
         </h5>
       </button>
     </h2>
     <div id="accordion-calendar" class="accordion-collapse collapse" data-bs-parent="#accordion">
-      <div class="accordion-body px-1 px-md-4 text-center"> 
-        <div id="calendar-spinner" class="spinner-border" role="status">
-        </div>
-
-        <div id="fullcalendar" class="my-2">
-        </div>
-
-        <div class="calendar-fluff d-none text-center py-2">
-          Im Folgenden kannst du einzelne Kalender ein- und ausblenden, oder sie in deine eigene Kalender-App einbinden.
-          <br><br>
-          Zum Einbinden, klicke auf das Icon unter <b>iCal-Link kopieren</b> und folge dann der Anleitung deiner Kalender-App, beispielsweise <a href="https://support.google.com/calendar/answer/37100" target="_blank">Google Calendar</a> oder der <a href="https://support.apple.com/guide/iphone/use-multiple-calendars-iph3d1110d4" target="_blank">iPhone Kalender-App</a>.
-        </div>
-        <div class="calendar-fluff d-none">
-          <table class="table align-middle text-white">
-            <thead>
-              <tr>
-                <th class="text-start"></th>
-                <th class="text-center">iCal-Link kopieren</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              {{ range (where .Site.Data.calendars "location" "global") }}
-              <tr>
-                <td class="text-start">
-                  <input class="form-check-input calendar-checkbox" type="checkbox" value="" id="checkbox-{{ .id }}" calendar="{{ .id }}" {{ if .checked -}} checked {{- end }}>
-                  <span id="color-{{ .id }}" class="badge">&nbsp;</span>
-                  <label id="name-{{ .id }}" class="form-check-label user-select-none" for="checkbox-{{ .id }}">
-                  </label>
-                </td>
-
-                <td class="text-center text-white">
-                  <button id="copy-ical-{{ .id }}" class="btn btn-xs copy-ical" role="button" calendar="{{ .id }}">
-                    <span id="copy-ical-icon-{{ .id }}" class="bi bi-clipboard-plus text-white"></span>
-                  </button>
-                </td>
-              </tr>
-              {{ end }}
-            </tbody>
-          </table>
-
-          <h5 class="text-white text-center">Regionale Kalender:</h5>
-          <div class="text-center pb-2">
-            Klicke auf die Städte, um regionale Kalender ein- oder auszublenden.
-          </div>
-          <div id="map-container" class="container p-0 position-relative text-center">
-            {{ $img := resources.Get "/img/d-a-ch-map.svg" }}
-            <img id="map" src="{{ $img.RelPermalink }}" class="rounded" width="100%">
-            {{ range .Site.Data.locations }}
-            {{ if .loc }}
-            <a id="location-{{ .id }}" location="{{ .id }}" class="map-pin position-absolute m-0" type="button" data-bs-toggle="modal" data-bs-target="#modal");>
-              <span class="bi bi-geo-alt-fill" data-bs-toggle="tooltip" data-bs-placement="left" title="{{ .name }}"></span>
-            </a>
-            {{ end }}
-            {{ end }}
-          </div>
-        </div>
+      <div class="accordion-body px-1 px-md-4">
+        {{ partial "home/calendar.html" . }}
       </div>
     </div>
   </div>
 
   <div class="accordion-item my-3 rounded">
     <h2 class="accordion-header">
-      <button class="accordion-button bg-transparent collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-jitsi">
+      <button class="accordion-button anchor bg-transparent collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-jitsi">
         <h5 class="w-100 text-center text-white">
           Jitsi-Raumübersicht
           <span id="numRooms">(0)</span>
@@ -146,7 +91,7 @@
   {{ range .Site.Data.links }}
   <div class="accordion-item apps my-3 rounded">
     <h2 class="accordion-header">
-      <button class="accordion-button bg-transparent {{ if not .show -}} collapsed {{- end }}" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-{{ .id }}">
+      <button class="accordion-button anchor bg-transparent {{ if not .show -}} collapsed {{- end }}" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-{{ .id }}">
         <h5 class="w-100 text-center text-white">
           {{ .title }}
           {{ if .info }}

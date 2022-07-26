@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
 
-$('.accordion-button').click(function(e) {
+$('.accordion-button.anchor').click(function(e) {
   const button = $(e.delegateTarget);
   const collapse = button.parents('.accordion-item').children('.accordion-collapse')
   if (button.hasClass('collapsed')) {

@@ -1,8 +1,5 @@
 - id: global
-
-- id: munich
-  loc: 48.1375, 11.575
-  name: München
+  name: Überregional
 
 - id: augsburg
   loc: 48.368889, 10.897778
@@ -11,6 +8,10 @@
 - id: mittelfranken
   loc: 49.455556, 11.078611
   name: Mittelfranken
+
+- id: munich
+  loc: 48.1375, 11.575
+  name: München
 
 # Calibration locations
 # - id: passau
