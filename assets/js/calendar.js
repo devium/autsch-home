@@ -48,7 +48,7 @@ function loadLocalStorage() {
 }
 
 function refreshCalendars() {
-  parseICalRange();
+  parseICalRange(calendars);
 
   const calendarOptions = calendars.filter(calendar => calendar.checked).map(function(calendar) {
     return {
@@ -179,7 +179,17 @@ function renderCalendarTable() {
 function toggleCalendar(thisObj) {
   const calendar = calendars.find(calendar => calendar.id == thisObj.attr('calendar'));
   calendar.checked = thisObj.is(':checked');
-  refreshCalendars();
+
+  if (calendar.checked) {
+    parseICalRange([calendar]);
+    fullCalendar.addEventSource({
+      id: calendar.id,
+      color: calendar.color,
+      events: calendar.events
+    });
+  } else {
+    fullCalendar.getEventSourceById(calendar.id).remove();
+  }
 }
 
 async function loadICal() {
@@ -200,8 +210,8 @@ function parseICalMeta() {
   });
 }
 
-function parseICalRange() {
-  calendars.forEach(function(calendar) {
+function parseICalRange(newCalendars) {
+  newCalendars.forEach(function(calendar) {
     if (!calendar.checked) {
       return;
     }
@@ -303,10 +313,6 @@ document.addEventListener('DOMContentLoaded', async function() {
   });
 
   $('[data-bs-target="#accordion-calendar"]').click(function(e) {
-  });
-
-  $('.calendar-checkbox').click(function() {
-    toggleCalendar($(this));
   });
 
   $('.copy-ical').click(function() {

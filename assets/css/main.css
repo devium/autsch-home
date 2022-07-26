@@ -72,6 +72,10 @@ a {
   cursor: pointer;
 }
 
+.fc-toolbar-title {
+  font-size: 1.25rem !important;
+}
+
 .fc-daygrid-event {
   font-size: 0.75rem;
 }
