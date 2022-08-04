@@ -67,7 +67,6 @@ function refreshCalendars() {
 
 function createEventParam(event) {
   // Occurrence date is part of the event's unique identifier. Prefer that to the actual date. Should be the same in most cases.
-  console.log(event);
   var date = event.id.substring(37);
   if (!date) {
     date = event.start.toISOString().substring(0, 10);
@@ -347,10 +346,6 @@ function showURLEvent() {
   const date = eventParam.substring(0, 10);
   const calendarId = eventParam.substring(11, 15);
   const eventId = eventParam.substring(16, 20);
-
-  console.log(date);
-  console.log(calendarId);
-  console.log(eventId);
 
   fullCalendar.gotoDate(new Date(date));
   const event = findEvent(calendarId, eventId, date);
