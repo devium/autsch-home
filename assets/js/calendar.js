@@ -349,8 +349,11 @@ function showURLEvent() {
 
   fullCalendar.gotoDate(new Date(date));
   const event = findEvent(calendarId, eventId, date);
-  renderEventDetails(event);
-  $('#modal').modal('show');
+
+  if (event) {
+    renderEventDetails(event);
+    $('#modal').modal('show');
+  }
 }
 
 var initialized = false;
