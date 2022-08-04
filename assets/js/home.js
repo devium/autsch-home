@@ -22,6 +22,10 @@ function resetCursors() {
 }
 
 function toggleCharlotte() {
+  if (!matchMedia('(pointer:fine').matches) {
+    return;
+  }
+
   if (charlotte) {
     clearInterval(charlotteAnimation);
     resetCursors();

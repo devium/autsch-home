@@ -63,6 +63,10 @@ input {
   cursor: pointer;
 }
 
+.calendar-badge {
+  max-height: 18px;
+}
+
 #rooms .card-title {
   min-height: 1.6rem;
 }
@@ -154,6 +158,10 @@ input {
 
 #accordion-calendar-settings .accordion-item {
   max-width: 480px;
+}
+
+#modalShare {
+  font-size: 1.25rem;
 }
 
 #modalBody {

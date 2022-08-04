@@ -10,7 +10,7 @@ function createCalendar() {
     locale: 'de',
     initialView: 'dayGridMonth',
     contentHeight: 'auto',
-    eventClick: renderEventDetails,
+    eventClick: eventClickInfo => renderEventDetails(eventClickInfo.event),
     eventDidMount: function(event) {
       $(event.el)
         .attr('data-bs-toggle', 'modal')
@@ -65,49 +65,76 @@ function refreshCalendars() {
   fullCalendar.dirty = false;
 }
 
-function renderEventDetails(eventClickInfo) {
-  $('#modalTitle').text(eventClickInfo.event._def.title);
+function createEventParam(event) {
+  // Occurrence date is part of the event's unique identifier. Prefer that to the actual date. Should be the same in most cases.
+  console.log(event);
+  var date = event.id.substring(37);
+  if (!date) {
+    date = event.start.toISOString().substring(0, 10);
+  }
+  return 'event=' + date + '-' + event.source.id.substring(0, 4) + '-' + event.id.substring(0, 4);
+}
+
+function createEventURL(event) {
+  return location.origin + '/' + '?' + createEventParam(event) + location.hash;
+}
+
+function renderEventDetails(event) {
+  window.history.pushState('', document.title, createEventURL(event));
+
+  $('#modalTitle').text(event._def.title);
+
+  $('#modalShare').unbind('click').click(function() {
+    copyEventURL(event, $(this));
+  });
 
   const body = $('#modalBody');
   body.empty();
 
-  const props = eventClickInfo.event.extendedProps;
-  const allDay = eventClickInfo.event.allDay;
-
-  if ($(eventClickInfo.el).hasClass('cancelled')) {
+  if (event.extendedProps.status === 'CANCELLED') {
     body.append($('<h5>', { class: 'bi bi-exclamation-triangle text-danger' } ).text(' Abgesagt!'));
   }
-  if ($(eventClickInfo.el).hasClass('tentative')) {
+  if (event.extendedProps.status === 'TENTATIVE') {
     body.append($('<h5>', { class: 'bi bi-exclamation-triangle text-warning' } ).text(' Vorläufiger Termin!'));
   }
-  if (eventClickInfo.event.start !== null) {
+  if (event.start !== null) {
     body.append($('<h6>').text("Beginn:"));
-    const weekday = eventClickInfo.event.start.toLocaleString([], { weekday: 'short' });
-    const options = allDay ? { dateStyle: 'medium' } : { dateStyle: 'medium', timeStyle: 'short' }
-    const date = eventClickInfo.event.start.toLocaleString([], options);
+    const weekday = event.start.toLocaleString([], { weekday: 'short' });
+    const options = event.allDay ? { dateStyle: 'medium' } : { dateStyle: 'medium', timeStyle: 'short' }
+    const date = event.start.toLocaleString([], options);
     body.append($('<p>').text(weekday + ', ' + date));
   }
-  if (eventClickInfo.event.end !== null) {
+  if (event.end !== null) {
     body.append($('<h6>').text("Ende:"));
-    const weekday = eventClickInfo.event.end.toLocaleString([], { weekday: 'short' });
-    const options = allDay ? { dateStyle: 'medium' } : { dateStyle: 'medium', timeStyle: 'short' }
-    const date = eventClickInfo.event.end.toLocaleString([], options);
+    const weekday = event.end.toLocaleString([], { weekday: 'short' });
+    const options = event.allDay ? { dateStyle: 'medium' } : { dateStyle: 'medium', timeStyle: 'short' }
+    const date = event.end.toLocaleString([], options);
     body.append($('<p>').text(weekday + ', ' + date));
   }
 
-  if (props.location !== null) {
+  if (event.extendedProps.location !== null) {
     body.append($('<h6>').text("Ort:"));
-    body.append($('<p>').text(props.location)).linkify({ target: '_blank' });
+    body.append($('<p>').text(event.extendedProps.location)).linkify({ target: '_blank' });
   }
-  if (props.description !== null) {
+  if (event.extendedProps.description !== null) {
     body.append($('<h6>').text("Beschreibung:"));
-    body.append($('<p>').text(props.description)).linkify({ target: '_blank' });
+    body.append($('<p>').text(event.extendedProps.description)).linkify({ target: '_blank' });
   }
 
-  const calendar = calendars.find(cal => cal.id == eventClickInfo.event.source.id);
-  $('#modalFooter').removeClass('d-none');
+  const calendar = calendars.find(cal => cal.id == event.source.id);
   $('#modalFooterBadge').css('background-color', calendar.color);
   $('#modalFooterText').text(calendar.name);
+}
+
+function copyEventURL(event, iconEl) {
+  navigator.clipboard.writeText(createEventURL(event));
+
+  const tooltip = new bootstrap.Tooltip(iconEl, { title: 'Link kopiert!', trigger: 'manual', placement: 'left' });
+  tooltip.show();
+
+  setTimeout(function() {
+    tooltip.hide();
+  }, 3000);
 }
 
 function copyICal(id, iconEl) {
@@ -146,7 +173,7 @@ function renderCalendarTable() {
           }).prop('checked', calendar.checked).click(function() { toggleCalendar($(this)); })
         ).append(
           $('<span>', {
-            class: 'badge mx-1',
+            class: 'badge calendar-badge mx-1',
             style: 'background-color: ' + calendar.color
           }).html('&nbsp;')
         ).append(
@@ -254,7 +281,8 @@ function parseICalRange(newCalendars) {
             end: occurrence.endDate.toJSDate(),
             description: occurrence.item.description,
             classNames: classNames,
-            location: occurrence.item.location
+            location: occurrence.item.location,
+            status: status
           });
         }
 
@@ -276,7 +304,8 @@ function parseICalRange(newCalendars) {
           end: event.endDate.toJSDate(),
           description: event.description,
           classNames: classNames,
-          location: event.location
+          location: event.location,
+          status: status
         }
       } else {
         return [];
@@ -287,6 +316,46 @@ function parseICalRange(newCalendars) {
     calendar.loadedStart = startDate;
     calendar.loadedEnd = endDate;
   });
+}
+
+function findEvent(calendarId, eventId, date) {
+  for (const calendar of calendars) {
+    if (calendar.id.startsWith(calendarId)) {
+      if (!calendar.checked) {
+        $('#checkbox-' + calendar.id).click();
+      }
+      for (const event of calendar.events) {
+        if (event.id.startsWith(eventId)) {
+          if (event.id.length === 36 || event.id.endsWith(date)) {
+            return fullCalendar.getEventById(event.id);
+          }
+        }
+      }
+    }
+  }
+
+  return null;
+}
+
+function showURLEvent() {
+  const urlParams = new URLSearchParams(window.location.search);
+  if (!urlParams.has('event')) {
+    return;
+  }
+
+  const eventParam = urlParams.get('event');
+  const date = eventParam.substring(0, 10);
+  const calendarId = eventParam.substring(11, 15);
+  const eventId = eventParam.substring(16, 20);
+
+  console.log(date);
+  console.log(calendarId);
+  console.log(eventId);
+
+  fullCalendar.gotoDate(new Date(date));
+  const event = findEvent(calendarId, eventId, date);
+  renderEventDetails(event);
+  $('#modal').modal('show');
 }
 
 var initialized = false;
@@ -325,4 +394,6 @@ document.addEventListener('DOMContentLoaded', async function() {
     const thisObj = $(this);
     copyICal(thisObj.attr('calendar'), thisObj.children('span'));
   });
+
+  showURLEvent();
 });
