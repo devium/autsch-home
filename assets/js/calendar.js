@@ -79,7 +79,7 @@ function createEventURL(event) {
 }
 
 function renderEventDetails(event) {
-  window.history.pushState('', document.title, createEventURL(event));
+  window.history.replaceState({}, '', createEventURL(event));
 
   $('#modalTitle').text(event._def.title);
 
@@ -385,7 +385,8 @@ document.addEventListener('DOMContentLoaded', async function() {
     e.stopPropagation();
   });
 
-  $('[data-bs-target="#accordion-calendar"]').click(function(e) {
+  $('#modal').on('hide.bs.modal', function(e) {
+    window.history.replaceState({}, '', location.origin + '/' + location.hash);
   });
 
   $('.copy-ical').click(function() {
