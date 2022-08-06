@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function resetCursors() {
   $('html').css({
-    '--cursor-default': 'default',
+    '--cursor-default': 'auto',
     '--cursor-pointer': 'pointer',
     '--cursor-text': 'text'
   });
