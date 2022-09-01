@@ -4,6 +4,9 @@
 - id: augsburg
   name: Augsburg
 
+- id: hamburg
+  name: Hamburg
+
 - id: mittelfranken
   name: Mittelfranken
 

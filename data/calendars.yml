@@ -32,3 +32,8 @@
 - id: DHLHctz3XWRCHoxt
   checked: true
   location: mittelfranken
+
+# Hamburg
+- id: DfPCYnDPDeXXB472
+  checked: false
+  location: hamburg
