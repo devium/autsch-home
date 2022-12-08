@@ -28,12 +28,17 @@
   checked: true
   location: augsburg
 
-# Mittelfranken
+# Franken
 - id: DHLHctz3XWRCHoxt
   checked: true
-  location: mittelfranken
+  location: franken
 
 # Hamburg
 - id: DfPCYnDPDeXXB472
   checked: false
   location: hamburg
+
+# Ulm
+- id: sxH6WFy4g6CxiyPQ
+  checked: false
+  location: tuebingen

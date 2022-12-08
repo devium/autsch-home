@@ -7,8 +7,11 @@
 - id: hamburg
   name: Hamburg
 
-- id: mittelfranken
-  name: Mittelfranken
+- id: franken
+  name: Franken
 
 - id: munich
   name: München
+
+- id: tuebingen
+  name: Tübingen
