@@ -13,5 +13,8 @@
 - id: munich
   name: München
 
+- id: rheinmain
+  name: Rhein-Main
+
 - id: tuebingen
   name: Tübingen
