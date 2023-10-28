@@ -1,0 +1,6 @@
+- name: Home
+  ref: /
+- name: Impressum
+  ref: /imprint
+- name: Datenschutzerklärung
+  ref: /privacy

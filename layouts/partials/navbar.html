@@ -1,10 +1,23 @@
 <div id="navbar" class="container-fluid p-0 position-fixed top-0">
-  <nav class="navbar navbar-expand navbar-dark bg-dark">
+  <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
     <div class="container-fluid">
       <a class="navbar-brand" href="/">
         <img src="/img/favicon.svg" class="d-inline-block align-top" width=30>
         {{ .Site.Title }}
       </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarContent">
+        <ul class="navbar-nav mr-auto">
+          {{ $currentPage := . }}
+          {{ range .Site.Menus.navbar }}
+          <li class="nav-item {{ if $currentPage.IsMenuCurrent "navbar" . }}active{{ end }}">
+            <a class="nav-link" href="{{ .URL }}">{{ .Name }}</a>
+          </li>
+          {{ end }}
+        </ul>
+      </div>
     </div>
   </nav>
 </div>

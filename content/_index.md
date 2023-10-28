@@ -1,4 +1,8 @@
 ---
+menu: navbar
+title: Home
+weight: 10
+
 js:
   - url: https://code.jquery.com/jquery-3.6.0.min.js
     fingerprint: sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==
@@ -16,7 +20,6 @@ js:
     fingerprint: sha256-uc66MYQfuzCk9FXabhgiV7PmXevUgraoxslXewknZ6U=
   - url: /js/calendar.js
   - url: /js/rooms.js
-  - url: /js/calendar.js
   - url: /js/title.js
   - url: /js/home.js
 
