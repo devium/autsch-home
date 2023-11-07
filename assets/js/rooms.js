@@ -100,7 +100,7 @@ function renderRoom(room) {
               $('<li>').append(
                 $('<a>', {
                   class: 'dropdown-item text-end',
-                  href: 'https://hang.{{ $.Site.Params.baseDomain }}/oidc/auth?path=%2F' + room.name,
+                  href: '{{ $jitsiUrl }}/oidc/auth?path=%2F' + room.name,
                   target: '_blank'
                 }).text('Anmelden und beitreten').append(
                   $('<span>', { class: 'bi bi-key ps-2' })
@@ -171,7 +171,7 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   $('#openroom').click(function(event) {
-    window.open('https://hang.{{ $.Site.Params.baseDomain }}/' + $('#roomname').val().replace(/\s/g, '_'), '_blank')
+    window.open('{{ $jitsiUrl }}/oidc/auth?path=%2F' + $('#roomname').val().replace(/\s/g, '_'), '_blank')
   });
 
   $('[data-bs-toggle="tooltip"]').get().map(function (tooltipTriggerEl) {
