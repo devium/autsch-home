@@ -1,8 +1,8 @@
-baseURL = 'https://www.dev.autsch.org'
+baseURL = 'https://www.autsch.org'
 title = 'Autsch'
 
 disableKinds = ['taxonomy', 'taxonomyTerm']
 enableRobotsTXT = true
 
 [params]
-baseDomain = 'dev.autsch.org'
+baseDomain = 'autsch.org'

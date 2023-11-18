@@ -90,8 +90,8 @@ jobs:
           tags: ${{ steps.meta-dev.outputs.tags }}
           labels: ${{ steps.meta-dev.outputs.labels }}
           build-args: |
-            HUGO_BASEURL=https://www.dev.autsch.org
-            HUGO_PARAMS_baseDomain=dev.autsch.org
+            HUGO_BASEURL=https://www.autsch.dev
+            HUGO_PARAMS_baseDomain=autsch.dev
 
       # Build and push Docker image with Buildx (don't push on PR)
       # https://github.com/docker/build-push-action
