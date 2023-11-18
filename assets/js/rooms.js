@@ -75,7 +75,7 @@ function renderRoom(room) {
             class: 'h5 text-decoration-none flex-grow-1 text-truncate text-dark card-title',
             href: '{{ $jitsiUrl }}/' + room.name,
             target: '_blank'
-          }).text(room.name)
+          }).text(decodeURI(room.name))
         ).append(
           $('<div>', { class: 'dropdown' }).append(
             $('<button>', {
