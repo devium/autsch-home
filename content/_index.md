@@ -6,8 +6,8 @@ weight: 10
 js:
   - url: https://code.jquery.com/jquery-3.6.0.min.js
     fingerprint: sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==
-  - url: https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js
-    fingerprint: sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p
+  - url: https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js
+    fingerprint: sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL
   - url: https://cdnjs.cloudflare.com/ajax/libs/ical.js/1.5.0/ical.min.js
     fingerprint: sha512-0izBc1upGYnrS1u1MX7QR+sjFIxZWxLVdNI7cUoHHCutDr5ENjuQRZuS+v+3NFNGfwHSrPoHzBzED0rV651tGw==
   - url: https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.js
@@ -24,10 +24,10 @@ js:
   - url: /js/home.js
 
 css:
-  - url: https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css
-    fingerprint: sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3
-  - url: https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css
-    fingerprint: sha256-rzXMaro05QBd53CZ36ctTBp3FdKN3Ow0P0gDHcjLCLw=
+  - url: https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css
+    fingerprint: sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN
+  - url: https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css
+    fingerprint: sha384-4LISF5TTJX/fLmGSxO53rV4miRxdg84mZsxmO8Rx5jGtp/LbrixFETvWa5a6sESd
   - url: https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.css
     fingerprint: sha256-5veQuRbWaECuYxwap/IOE/DAwNxgm4ikX7nrgsqYp88=
   - url: /css/main.css

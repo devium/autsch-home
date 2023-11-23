@@ -2,21 +2,16 @@
   show: false
   id: chat
   body: |
-    Autsch bietet einen Ende-zu-Ende-verschlüsselten Matrix-Chat an. Diesem kannst du mit jedem der hier gelisteten Apps beitreten, oder auch mit einer Matrix-kompatiblen Chat-App deiner Wahl.
-    <br><br>
-    Konfiguriere hierzu einfach in der App den Homeserver <b>autsch.org</b>. Du wirst dann zu unserem sicheren Keycloak-Server zur Anmeldung weitergeleitet. Benutzername und E-Mail kannst du jederzeit ändern.
+    Autsch verfügt über einen Matrix-Chat-Server, den du beispielsweise mit Element benutzen kannst.<br>
+    Konfiguriere hierzu einfach in der App den Homeserver <b>autsch.org</b>.
   links:
     - title: Element (Web)
       url: https://element.DOMAIN
       icon: icon_element.svg
 
-    - title: Element (App)
-      url: https://element.io/get-started#download
-      icon: icon_element.svg
-
-    - title: FluffyChat (App)
-      url: https://fluffychat.im
-      icon: icon_fluffychat.svg
+    - title: Element X (iOS/Android)
+      url: https://element.io/labs/element-x
+      icon: icon_element_x.webp
 
 - title: Apps
   show: false
@@ -33,10 +28,6 @@
     - title: Nextcloud
       url: https://next.DOMAIN
       icon: icon_nextcloud.svg
-
-    - title: Work Adventure
-      url: https://play.DOMAIN
-      icon: icon_workadventure.svg
 
     - title: Grafana
       url: https://grafana.DOMAIN

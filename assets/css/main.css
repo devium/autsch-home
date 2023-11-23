@@ -5,6 +5,9 @@ body {
   background-size: cover;
   flex-wrap: wrap;
   cursor: var(--cursor-default) !important;
+
+  --bs-body-color: white;
+  --bs-border-color: black;
 }
 
 a {
