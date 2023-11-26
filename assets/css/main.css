@@ -5,9 +5,6 @@ body {
   background-size: cover;
   flex-wrap: wrap;
   cursor: var(--cursor-default) !important;
-
-  --bs-body-color: white;
-  --bs-border-color: black;
 }
 
 a {
@@ -26,20 +23,27 @@ input {
   cursor: var(--cursor-text) !important;
 }
 
-#navbar {
-  z-index: 1030;
-}
-
-#navbar-pad {
-  padding: 28px;
+td, th {
+  color: white !important;
+  background-color: transparent !important;
 }
 
 .accordion-item {
   background-color: rgba(0, 0, 0, 0.2);
+  border-width: 0px;
+  color: white;
+}
+
+.accordion-button:not(.collapsed) {
+  box-shadow: none;
 }
 
 .accordion-button::after {
   background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23fff'><path fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/></svg>") !important;
+}
+
+.apps .card-title {
+  margin-bottom: 0;
 }
 
 .btn-close {
@@ -54,35 +58,21 @@ input {
   opacity: 1.0;
 }
 
-.apps .card-title {
-  margin-bottom: 0;
-}
-
 .card-rooms {
   width: 800px;
-}
-
-.cursor-pointer:hover {
-  cursor: pointer;
 }
 
 .calendar-badge {
   max-height: 18px;
 }
 
-#rooms .card-title {
-  min-height: 1.6rem;
+.cursor-pointer:hover {
+  cursor: pointer;
 }
 
-#rooms .card-body {
-  min-height: 140px;
-  max-height: 140px;
-  overflow: auto;
-}
-
-#map {
-  max-width: 600px;
-  background-color: whitesmoke;
+.form-check-input {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-width: 0px;
 }
 
 .fc-event {
@@ -153,29 +143,6 @@ input {
   border-radius: 0.2rem
 }
 
-#calendar-table td {
-  border-bottom-width: 0px;
-  padding-top: 4px;
-  padding-bottom: 4px;
-}
-
-#accordion-calendar-settings .accordion-item {
-  max-width: 480px;
-}
-
-#modalShare {
-  font-size: 1.25rem;
-}
-
-#modalBody {
-  max-height: 400px;
-}
-
-#modalBody p {
-  white-space: pre-line;
-  overflow-wrap: break-word;
-}
-
 .modal-dialog {
   max-width: 640px;
 }
@@ -191,10 +158,51 @@ input {
   padding-right: 0.3rem;
 }
 
+#accordion-calendar-settings .accordion-item {
+  max-width: 480px;
+}
+
+#calendar-table td {
+  border-bottom-width: 0px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
 #charlotte {
   opacity: 0;
 }
 
 #charlotte:hover {
   opacity: 1;
+}
+
+#modalBody {
+  max-height: 400px;
+}
+
+#modalBody p {
+  white-space: pre-line;
+  overflow-wrap: break-word;
+}
+
+#modalShare {
+  font-size: 1.25rem;
+}
+
+#navbar {
+  z-index: 1030;
+}
+
+#navbar-pad {
+  padding: 28px;
+}
+
+#rooms .card-body {
+  min-height: 140px;
+  max-height: 140px;
+  overflow: auto;
+}
+
+#rooms .card-title {
+  min-height: 1.6rem;
 }
