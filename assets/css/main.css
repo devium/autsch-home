@@ -151,6 +151,10 @@ td, th {
   font-size: 1.5rem;
 }
 
+.navbar-brand {
+  margin-right: 0px;
+}
+
 .btn-xs {
   padding-top: 0;
   padding-bottom: 0;
@@ -205,4 +209,9 @@ td, th {
 
 #rooms .card-title {
   min-height: 1.6rem;
+}
+
+#tagline {
+  display: inline-block;
+  font-size: 0.6rem;
 }

@@ -36,3 +36,7 @@
     - title: Stammtisch-Buddy
       url: https://buddy.DOMAIN
       icon: icon_buddy.ico
+
+    - title: Wiki
+      url: https://wiki.DOMAIN
+      icon: icon_wiki.png

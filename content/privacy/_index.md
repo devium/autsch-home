@@ -1,5 +1,5 @@
 ---
-# menu: navbar
+menu: navbar
 title: Datenschutzerklärung
 weight: 30
 
