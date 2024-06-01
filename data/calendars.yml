@@ -1,54 +1,71 @@
 # Überregional
-- id: XtrzgcemejsDFf89
+- id: ueberregional
+  url: https://next.autsch.org/remote.php/dav/public-calendars/XtrzgcemejsDFf89?export
   checked: true
   location: global
 
 # Vorschläge
-- id: sHp6ZNH57CAAiYNk
+- id: vorschlaege
+  url: https://next.autsch.org/remote.php/dav/public-calendars/sHp6ZNH57CAAiYNk?export
   checked: false
   location: global
 
+# Freizeithypnose
+- id: hypnose
+  url: https://next.autsch.org/remote.php/dav/public-calendars/sg6zsdMRt6LXaDAK?export
+  checked: true
+  location: global
+
 # München
-- id: a52MKPxagEiiRq8e
+- id: muenchen
+  url: https://next.autsch.org/remote.php/dav/public-calendars/a52MKPxagEiiRq8e?export
   checked: true
   location: munich
 
 # München (vanilla)
-- id: cLBxgpoy3e5gSmQi
+- id: muenchen_vanilla
+  url: https://next.autsch.org/remote.php/dav/public-calendars/cLBxgpoy3e5gSmQi?export
   checked: true
   location: munich
 
 # JungeSMünchen
-- id: r9nPEi3bKG5LMnpK
+- id: jungesmuenchen
+  url: https://next.autsch.org/remote.php/dav/public-calendars/r9nPEi3bKG5LMnpK?export
   checked: true
   location: munich
 
 # Augsburg
-- id: 7K2MXBDDgYF58GKe
+- id: augsburg
+  url: https://next.autsch.org/remote.php/dav/public-calendars/7K2MXBDDgYF58GKe?export
   checked: true
   location: augsburg
 
 # Franken
-- id: DHLHctz3XWRCHoxt
+- id: franken
+  url: https://next.autsch.org/remote.php/dav/public-calendars/DHLHctz3XWRCHoxt?export
   checked: true
   location: franken
 
 # Hamburg
-- id: DfPCYnDPDeXXB472
+- id: hamburg
+  url: https://next.autsch.org/remote.php/dav/public-calendars/DfPCYnDPDeXXB472?export
   checked: false
   location: hamburg
 
 # Ulm
-- id: sxH6WFy4g6CxiyPQ
+- id: ulm
+  url: https://next.autsch.org/remote.php/dav/public-calendars/sxH6WFy4g6CxiyPQ?export
   checked: false
   location: tuebingen
 
 # Rhein-Main
-- id: 9tB3eDdxZRXxmkzJ
+- id: rheinmain
+  url: https://next.autsch.org/remote.php/dav/public-calendars/9tB3eDdxZRXxmkzJ?export
   checked: false
   location: rheinmain
 
 # Kempten
-- id: R4AJXtonLfDLfe6H
+- id: kempten
+  url: https://next.autsch.org/remote.php/dav/public-calendars/R4AJXtonLfDLfe6H?export
   checked: false
   location: allgaeu

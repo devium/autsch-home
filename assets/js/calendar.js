@@ -30,10 +30,6 @@ function createCalendar() {
   return fullCalendar;
 }
 
-function createICalURL(id) {
-  return 'https://next.{{ $.Site.Params.baseDomain }}/remote.php/dav/public-calendars/' + id + '?export';
-}
-
 function loadLocalStorage() {
   const calendarsStored = JSON.parse(localStorage.getItem('calendars') || '{}');
   $.each(calendars, function(index, calendar) {
@@ -137,7 +133,8 @@ function copyEventURL(event, iconEl) {
 }
 
 function copyICal(id, iconEl) {
-  navigator.clipboard.writeText(createICalURL(id));
+  const calendar = calendars.find(calendar => calendar.id == id);
+  navigator.clipboard.writeText(calendar.url);
 
   const tooltip = new bootstrap.Tooltip(iconEl, { title: 'Kopiert!', trigger: 'manual', placement: 'left' });
   tooltip.show();
@@ -216,7 +213,7 @@ function toggleCalendar(thisObj) {
 
 async function loadICal() {
   await Promise.all(calendars.map(async function(calendar) {
-    const response = await fetch(createICalURL(calendar.id));
+    const response = await fetch(calendar.url);
     const text = await response.text();
     calendar.ical = new ICAL.Component(ICAL.parse(text));
   }));
