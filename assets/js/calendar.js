@@ -67,7 +67,7 @@ function createEventParam(event) {
   if (!date) {
     date = event.start.toISOString().substring(0, 10);
   }
-  return 'event=' + date + '-' + event.source.id.substring(0, 4) + '-' + event.id.substring(0, 4);
+  return 'event=' + date + '-' + event.id.substring(0, 4) + '-' + event.source.id;
 }
 
 function createEventURL(event) {
@@ -133,8 +133,8 @@ function copyEventURL(event, iconEl) {
 }
 
 function copyICal(id, iconEl) {
-  const calendar = calendars.find(calendar => calendar.id == id);
-  navigator.clipboard.writeText(calendar.url);
+  const selectedCalendar = calendars.find(calendar => calendar.id == id);
+  navigator.clipboard.writeText(selectedCalendar.url);
 
   const tooltip = new bootstrap.Tooltip(iconEl, { title: 'Kopiert!', trigger: 'manual', placement: 'left' });
   tooltip.show();
@@ -341,8 +341,8 @@ function showURLEvent() {
 
   const eventParam = urlParams.get('event');
   const date = eventParam.substring(0, 10);
-  const calendarId = eventParam.substring(11, 15);
-  const eventId = eventParam.substring(16, 20);
+  const eventId = eventParam.substring(11, 15);
+  const calendarId = eventParam.substring(16);
 
   fullCalendar.gotoDate(new Date(date));
   const event = findEvent(calendarId, eventId, date);
@@ -384,11 +384,6 @@ document.addEventListener('DOMContentLoaded', async function() {
 
   $('#modal').on('hide.bs.modal', function(e) {
     window.history.replaceState({}, '', location.origin + '/' + location.hash);
-  });
-
-  $('.copy-ical').click(function() {
-    const thisObj = $(this);
-    copyICal(thisObj.attr('calendar'), thisObj.children('span'));
   });
 
   showURLEvent();
