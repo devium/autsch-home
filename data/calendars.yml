@@ -16,6 +16,13 @@
   checked: true
   location: global
 
+# Bootblack
+- id: bootblack
+  url: https://bootblack.events/feed/icautsch?show_recurrent=true
+  checked: false
+  location: global
+  color: "#8B4513"
+
 # München
 - id: muenchen
   url: https://next.autsch.org/remote.php/dav/public-calendars/a52MKPxagEiiRq8e?export

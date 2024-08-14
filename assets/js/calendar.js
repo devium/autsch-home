@@ -221,8 +221,8 @@ async function loadICal() {
 
 function parseICalMeta() {
   calendars.forEach(function(calendar) {
-    calendar.color = calendar.ical.getFirstPropertyValue('x-apple-calendar-color');
-    calendar.name = calendar.ical.getFirstPropertyValue('x-wr-calname').replace(/ \([0-9a-fA-F-]{36}\)/, '');
+    calendar.color = calendar.color || calendar.ical.getFirstPropertyValue('x-apple-calendar-color');
+    calendar.name = calendar.name || calendar.ical.getFirstPropertyValue('x-wr-calname').replace(/ \([0-9a-fA-F-]{36}\)/, '');
 
     $('#name-' + calendar.id).text(calendar.name);
     $('#color-' + calendar.id).attr('style', 'background-color: ' + calendar.color);
