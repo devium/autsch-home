@@ -203,7 +203,7 @@ function toggleCalendar(thisObj) {
       color: calendar.color,
       events: calendar.events
     });
-  } else {
+  } else if (calendar.ical !== undefined) {
     fullCalendar.getEventSourceById(calendar.id).remove();
   }
 
@@ -213,9 +213,14 @@ function toggleCalendar(thisObj) {
 
 async function loadICal() {
   await Promise.all(calendars.map(async function(calendar) {
-    const response = await fetch(calendar.url);
-    const text = await response.text();
-    calendar.ical = new ICAL.Component(ICAL.parse(text));
+    try {
+      const response = await fetch(calendar.url);
+      const text = await response.text();
+      calendar.ical = new ICAL.Component(ICAL.parse(text));
+    } catch (error) {
+      console.error(error);
+      console.error('Error fetching calendar from ' + calendar.url);
+    }
   }));
 }
 
@@ -231,7 +236,7 @@ function parseICalMeta() {
 
 function parseICalRange(newCalendars) {
   newCalendars.forEach(function(calendar) {
-    if (!calendar.checked) {
+    if (!calendar.checked || calendar.ical === undefined) {
       return;
     }
 

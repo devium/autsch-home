@@ -21,7 +21,8 @@
   url: https://bootblack.events/feed/icautsch?show_recurrent=true
   checked: false
   location: global
-  color: "#8B4513"
+  color: "#371904"
+  name: Bootblack.Events
 
 # München
 - id: muenchen
