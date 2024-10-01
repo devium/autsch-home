@@ -3,8 +3,8 @@
     <div class="container-fluid">
       <div>
         <a class="navbar-brand" href="/">
-          <img src="/img/favicon.svg" class="d-inline-block align-top" width=30>
-          Autsch
+          {{ $img := resources.Get "/img/logo.svg" }}
+          <img src="{{ $img.RelPermalink }}" class="d-inline-block align-top" height=72>
         </a>
         <span id="tagline"></span>
       </div>
