@@ -1,7 +1,7 @@
 baseURL = 'https://www.autsch.org'
 title = 'Autsch'
 
-disableKinds = ['taxonomy', 'taxonomyTerm']
+disableKinds = ['taxonomy']
 enableRobotsTXT = true
 
 [params]

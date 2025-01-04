@@ -162,8 +162,12 @@ td, th {
   padding-right: 0.3rem;
 }
 
-#accordion-calendar-settings .accordion-item {
+#calendar-settings {
   max-width: 480px;
+}
+
+#calendar-suggestion > a {
+  max-width: 600px;
 }
 
 #calendar-table td {
@@ -220,5 +224,5 @@ td, th {
   font-size: 0.9rem;
   margin-top: -16px;
   margin-left: 46px;
-  font-family: Impact, sans-serif;
+  font-weight: 600;
 }

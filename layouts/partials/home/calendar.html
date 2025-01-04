@@ -3,38 +3,29 @@
   </div>
 </div>
 
-<div id="accordion-calendar-settings" class="accordion calendar-fluff d-none mx-3 mb-3">
-  <div class="accordion-item border-0 mx-auto">
-    <h2 class="accordion-header text-white">
-      <button class="accordion-button bg-dark border-0 collapsed py-2" type="button" data-bs-toggle="collapse" data-bs-target="#calendar-settings">
-        <h6 class="w-100 text-white text-center mt-1">Kalenderauswahl</h6>
-      </button>
-    </h2>
-    <div id="calendar-settings" class="accordion-collapse collapse bg-dark">
-      <div class="accordion-body px-1">
-        
-        <table id="calendar-table" class="table align-middle text-white">
-          <thead>
-            <tr>
-              <th>Anzeigen</th>
-              <th class="text-center">iCal</th>
-            </tr>
-          </thead>
-
-          <tbody>
-          </tbody>
-        </table>
-
-        <div class="text-center py-2">
-          Hier kannst du einzelne Kalender ein- und ausblenden, oder sie in deine eigene Kalender-App einbinden.
-          <br><br>
-          Zum Einbinden, klicke auf das Icon unter <b>iCal</b>, um den Abonnement-Link zu kopieren. Folge dann der Anleitung deiner Kalender-App, beispielsweise <a href="https://support.google.com/calendar/answer/37100" target="_blank">Google Calendar</a> oder der <a href="https://support.apple.com/guide/iphone/use-multiple-calendars-iph3d1110d4" target="_blank">iPhone Kalender-App</a>.
-        </div>
-
-      </div>
-    </div>
-  </div>
+<div id="calendar-suggestion" class="calendar-fluff d-none my-2 text-end">
+  <a href="https://{{ $.Site.Params.baseDomain }}/vorschlagen" class="btn btn-dark">Vorschlag einreichen <i class="bi bi-box-arrow-up-right"></i></a>
 </div>
 
 <div id="fullcalendar" class="my-2">
+</div>
+
+<div id="calendar-settings" class="m-auto calendar-fluff d-none">
+  <table id="calendar-table" class="table align-middle text-white">
+    <thead>
+      <tr>
+        <th>Anzeigen</th>
+        <th class="text-center">iCal</th>
+      </tr>
+    </thead>
+
+    <tbody>
+    </tbody>
+  </table>
+
+  <div class="text-center py-2">
+    Hier kannst du einzelne Kalender ein- und ausblenden, oder sie in deine eigene Kalender-App einbinden.
+    <br><br>
+    Zum Einbinden, klicke auf das Icon unter <b>iCal</b>, um den Abonnement-Link zu kopieren. Folge dann der Anleitung deiner Kalender-App, beispielsweise <a href="https://support.google.com/calendar/answer/37100" target="_blank">Google Calendar</a> oder der <a href="https://support.apple.com/guide/iphone/use-multiple-calendars-iph3d1110d4" target="_blank">iPhone Kalender-App</a>.
+  </div>
 </div>
