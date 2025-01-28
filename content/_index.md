@@ -6,6 +6,8 @@ weight: 10
 js:
   - url: https://code.jquery.com/jquery-3.6.0.min.js
     fingerprint: sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==
+  - url: https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js
+    fingerprint: sha512-2rNj2KJ+D8s1ceNasTIex6z4HWyOnEYLVC3FigGOmyQCZc2eBXKgOxQmo3oKLHyfcj53uz4QMsRCWNbLd32Q1g==
   - url: https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js
     fingerprint: sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy
   - url: https://cdnjs.cloudflare.com/ajax/libs/ical.js/1.5.0/ical.min.js
