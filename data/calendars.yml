@@ -42,6 +42,12 @@
   checked: true
   location: munich
 
+# MeckerLab
+- id: meckerlab
+  url: https://next.autsch.org/remote.php/dav/public-calendars/bisprRo52xnPpgbH?export
+  checked: true
+  location: munich
+
 # Augsburg
 - id: augsburg
   url: https://next.autsch.org/remote.php/dav/public-calendars/7K2MXBDDgYF58GKe?export
@@ -54,12 +60,6 @@
   checked: true
   location: franken
 
-# Hamburg
-- id: hamburg
-  url: https://next.autsch.org/remote.php/dav/public-calendars/DfPCYnDPDeXXB472?export
-  checked: false
-  location: hamburg
-
 # Ulm
 - id: ulm
   url: https://next.autsch.org/remote.php/dav/public-calendars/sxH6WFy4g6CxiyPQ?export
@@ -71,9 +71,3 @@
   url: https://next.autsch.org/remote.php/dav/public-calendars/9tB3eDdxZRXxmkzJ?export
   checked: false
   location: rheinmain
-
-# Kempten
-- id: kempten
-  url: https://next.autsch.org/remote.php/dav/public-calendars/R4AJXtonLfDLfe6H?export
-  checked: false
-  location: allgaeu
