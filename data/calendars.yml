@@ -44,9 +44,11 @@
 
 # MeckerLab
 - id: meckerlab
-  url: https://next.autsch.org/remote.php/dav/public-calendars/bisprRo52xnPpgbH?export
+  url: https://n8n.d4rkn3t.de/webhook/campai-calendar.ics
   checked: true
   location: munich
+  color: "#BC0085"
+  name: MeckerLab e.V.
 
 # Augsburg
 - id: augsburg
