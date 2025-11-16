@@ -1,18 +1,3 @@
-- title: Chat
-  show: false
-  id: chat
-  body: |
-    Autsch verfügt über einen Matrix-Chat-Server, den du beispielsweise mit Element benutzen kannst.<br>
-    Konfiguriere hierzu einfach in der App den Homeserver <b>autsch.org</b>.
-  links:
-    - title: Element (Web)
-      url: https://element.DOMAIN
-      icon: icon_element.svg
-
-    - title: Element X (iOS/Android)
-      url: https://element.io/labs/element-x
-      icon: icon_element_x.webp
-
 - title: Apps
   show: false
   id: apps
