@@ -234,6 +234,51 @@ function parseICalMeta() {
   });
 }
 
+function titleFlavor(title) {
+  const today = new Date();
+  const isThatDay = today.getMonth() === 3 && today.getDate() === 1;
+
+  if (!isThatDay) {
+    return title;
+  }
+
+  const prefixes = [
+    'Kinky',
+    'Glory',
+    'Planet',
+    'Afterwork',
+    'FLINTA*',
+    'Poly',
+    'Rope',
+    'Kein',
+    'Night of the',
+    'Young',
+    'Suganawa',
+    'Café'
+  ];
+
+  const suffixes = [
+    'Bizarre',
+    'Galore',
+    'Pleasures',
+    'Berlin',
+    'Jam',
+    'by Jonas Ehrlich',
+    'Lust',
+    'Unconference',
+    'Passion',
+    'Edition',
+    'and Friends',
+    'Night',
+    'Festival'
+  ];
+
+  const prefix = prefixes[Math.floor(Math.random() * prefixes.length)];
+  const suffix = suffixes[Math.floor(Math.random() * suffixes.length)];
+
+  return `${prefix} ${title} ${suffix}`;
+}
+
 function parseICalRange(newCalendars) {
   newCalendars.forEach(function(calendar) {
     if (!calendar.checked || calendar.ical === undefined) {
@@ -277,7 +322,7 @@ function parseICalRange(newCalendars) {
 
           eventsExpanded.push({
             id: occurrence.item.uid + '-' + occurrence.recurrenceId.toString().substring(0, 10),
-            title: occurrence.item.summary,
+            title: titleFlavor(occurrence.item.summary),
             start: occurrence.startDate.toJSDate(),
             end: occurrence.endDate.toJSDate(),
             description: occurrence.item.description,
@@ -300,7 +345,7 @@ function parseICalRange(newCalendars) {
 
         return {
           id: event.uid,
-          title: event.summary,
+          title: titleFlavor(event.summary),
           start: event.startDate.toJSDate(),
           end: event.endDate.toJSDate(),
           description: event.description,
