@@ -36,9 +36,15 @@
   checked: true
   location: munich
 
-# JungeSMünchen
-- id: jungesmuenchen
+# KinkyMünchen
+- id: kinkymuenchen
   url: https://next.autsch.org/remote.php/dav/public-calendars/r9nPEi3bKG5LMnpK?export
+  checked: true
+  location: munich
+
+# Kinky Wohnzimmer
+- id: kinkywohnzimmer
+  url: https://next.autsch.org/remote.php/dav/public-calendars/asQYKCj2zwEpWrm4?export
   checked: true
   location: munich
 
