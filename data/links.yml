@@ -25,3 +25,7 @@
     - title: Wiki
       url: https://wiki.DOMAIN
       icon: icon_wiki.png
+
+    - title: Pretix
+      url: https://tickets.DOMAIN
+      icon: icon_pretix.svg
