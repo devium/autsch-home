@@ -18,11 +18,9 @@
 
 # Bootblack
 - id: bootblack
-  url: https://bootblack.events/feed/icautsch?show_recurrent=true
+  url: https://next.autsch.org/remote.php/dav/public-calendars/GZ6pX6ogit5EKECw?export
   checked: false
   location: global
-  color: "#371904"
-  name: Bootblack.Events
 
 # München
 - id: muenchen
@@ -42,19 +40,11 @@
   checked: true
   location: munich
 
-# Kinky Wohnzimmer
-- id: kinkywohnzimmer
-  url: https://next.autsch.org/remote.php/dav/public-calendars/asQYKCj2zwEpWrm4?export
-  checked: true
-  location: munich
-
 # MeckerLab
 - id: meckerlab
-  url: https://n8n.d4rkn3t.de/webhook/campai-calendar.ics
+  url: https://next.autsch.org/remote.php/dav/public-calendars/gmk2Pf9aGzdqJsgm?export
   checked: true
   location: munich
-  color: "#BC0085"
-  name: MeckerLab e.V.
 
 # Augsburg
 - id: augsburg
